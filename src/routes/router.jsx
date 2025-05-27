@@ -6,7 +6,7 @@ import HasilDiagnosis from "@/pages/hasildiagnosis/HasilDiagnosis";
 import PenyakitPage from "@/pages/penyakit/PenyakitPage";
 
 import LoginPage from "@/pages/login/LoginPage";
-import Dashboard from "@/pages/dashboard/dashboard";
+import Dashboard from "@/pages/dashboard/Dashboard";
 import DataMasyarakat from "@/pages/dataadmin/DataMasyarakat";
 import DetailDataMasyarakat from "@/pages/dataadmin/DetailDataMasyarakat";
 import DataFeedBack from "@/pages/dataadmin/DataFeedBack";
