@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Sidebar from "@/components/admin/Sidebar";
-import NavbarAdmin from "@/components/admin/NavbarAdmin";
-import AdminTitle from "@/components/admin/AdminTitle";
-import Table from "@/components/admin/Table";
-import Pagination from "@/components/admin/Pagination";
+import Sidebar from "@/components/admin/sidebar";
+import NavbarAdmin from "@/components/admin/navbaradmin";
+import AdminTitle from "@/components/admin/admintitle";
+import Table from "@/components/admin/table";
+import Pagination from "@/components/admin/pagination";
 import FullScreenLoader from "@/components/loading";
 
 const DataMasyarakat = () => {

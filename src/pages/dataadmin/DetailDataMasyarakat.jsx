@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import Sidebar from "@/components/admin/Sidebar";
-import NavbarAdmin from "@/components/admin/NavbarAdmin";
-import AdminTitle from "@/components/admin/AdminTitle";
+import Sidebar from "@/components/admin/sidebar";
+import NavbarAdmin from "@/components/admin/navbaradmin";
+import AdminTitle from "@/components/admin/admintitle";
 
-import DataCard from "@/components/user/DataCard";
-import Button from "@/components/user/Button";
+import DataCard from "@/components/user/datacard";
+import Button from "@/components/user/button";
 
 import FullScreenLoader from "@/components/loading";
 

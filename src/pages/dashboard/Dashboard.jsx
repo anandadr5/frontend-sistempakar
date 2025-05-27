@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "@/components/admin/Sidebar";
-import NavbarAdmin from "@/components/admin/NavbarAdmin";
-import Charts from "@/components/admin/Charts";
+import Sidebar from "@/components/admin/sidebar";
+import NavbarAdmin from "@/components/admin/navbaradmin";
+import Charts from "@/components/admin/charts";
 
 const Dashboard = () => {
   return (
