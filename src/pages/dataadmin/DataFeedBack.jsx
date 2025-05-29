@@ -23,7 +23,7 @@ const DataFeedBack = () => {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    fetch("${BASE_URL}/api/feedback")
+    fetch(`${BASE_URL}/api/feedback`)
       .then((res) => res.json())
       .then((json) => setData(json))
       .catch((err) => console.error("Fetch error:", err));
