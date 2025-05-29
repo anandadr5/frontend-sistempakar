@@ -15,6 +15,8 @@ import CekDiagnosis from "@/assets/cekdiagnosis.png";
 import JenisPenyakit from "@/assets/jenispenyakit.png";
 import Kontak from "@/assets/kontak.png";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const services = [
   {
     img: CekDiagnosis,
@@ -71,7 +73,7 @@ const LandingPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/feedback", {
+      const response = await fetch(`${BASE_URL}/api/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

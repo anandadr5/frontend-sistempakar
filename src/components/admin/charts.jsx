@@ -9,13 +9,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const Charts = () => {
   const [data, setData] = useState([]);
   const [totalDiagnosis, setTotalDiagnosis] = useState(0);
 
   const fetchChartData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/statistik-harian");
+      const res = await fetch(`${BASE_URL}/api/statistik-harian`);
       const json = await res.json();
       setData(json);
 

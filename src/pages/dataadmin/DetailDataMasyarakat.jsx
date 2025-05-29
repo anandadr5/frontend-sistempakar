@@ -10,6 +10,8 @@ import Button from "@/components/user/button";
 
 import FullScreenLoader from "@/components/loading";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const DetailDataMasyarakat = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,9 +22,7 @@ const DetailDataMasyarakat = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/data-masyarakat/${id}`
-        );
+        const res = await fetch(`${BASE_URL}/api/data-masyarakat/${id}`);
         const data = await res.json();
         setDetailData(data);
       } catch (error) {

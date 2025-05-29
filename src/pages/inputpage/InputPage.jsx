@@ -12,6 +12,8 @@ import PopupAlert from "@/components/popup";
 import FullScreenLoader from "@/components/loading";
 import PageFade from "@/components/pagefade";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const InputPage = () => {
   const navigate = useNavigate();
 
@@ -84,7 +86,7 @@ const InputPage = () => {
       setLoading(true);
 
       try {
-        const response = await fetch("http://localhost:5000/api/diagnosis", {
+        const response = await fetch(`${BASE_URL}/api/diagnosis`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

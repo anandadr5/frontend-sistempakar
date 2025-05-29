@@ -10,6 +10,8 @@ import Table from "@/components/admin/table";
 import Pagination from "@/components/admin/pagination";
 import FullScreenLoader from "@/components/loading";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const DataMasyarakat = () => {
   const navigate = useNavigate();
 
@@ -32,7 +34,7 @@ const DataMasyarakat = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/data-masyarakat");
+      const res = await fetch("${BASE_URL}/api/data-masyarakat");
       const json = await res.json();
       setData(json);
     } catch (error) {
@@ -50,12 +52,9 @@ const DataMasyarakat = () => {
 
   const handleDelete = async (row) => {
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/data-masyarakat/${row.id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`${BASE_URL}/api/data-masyarakat/${row.id}`, {
+        method: "DELETE",
+      });
 
       if (res.ok) {
         setData(data.filter((item) => item.id !== row.id));

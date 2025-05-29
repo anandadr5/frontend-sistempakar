@@ -8,6 +8,8 @@ import AdminTitle from "@/components/admin/admintitle";
 import Table from "@/components/admin/table";
 import Pagination from "@/components/admin/pagination";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const DataFeedBack = () => {
   const columns = [
     { label: "ID", field: "id" },
@@ -21,7 +23,7 @@ const DataFeedBack = () => {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/feedback")
+    fetch("${BASE_URL}/api/feedback")
       .then((res) => res.json())
       .then((json) => setData(json))
       .catch((err) => console.error("Fetch error:", err));
@@ -29,12 +31,9 @@ const DataFeedBack = () => {
 
   const handleDelete = async (row) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/feedback/${row.id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${BASE_URL}/api/feedback/${row.id}`, {
+        method: "DELETE",
+      });
 
       if (response.ok) {
         setData((prev) => prev.filter((item) => item.id !== row.id));
