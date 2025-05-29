@@ -34,7 +34,7 @@ const DataMasyarakat = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("${BASE_URL}/api/data-masyarakat");
+      const res = await fetch(`${BASE_URL}/api/data-masyarakat`);
       const json = await res.json();
       setData(json);
     } catch (error) {
