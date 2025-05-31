@@ -12,14 +12,6 @@ import FullScreenLoader from "@/components/loading";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const escapeHTML = (str) =>
-  String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
 const DataMasyarakat = () => {
   const navigate = useNavigate();
 
@@ -82,12 +74,6 @@ const DataMasyarakat = () => {
   const currentData = [...data]
     .sort((a, b) => a.id - b.id)
     .slice(indexOfFirstItem, indexOfLastItem);
-  const sanitizedData = currentData.map((item) => ({
-    ...item,
-    nama: escapeHTML(item.nama),
-    jenis_kelamin: escapeHTML(item.jenis_kelamin),
-    diagnosis: escapeHTML(item.diagnosis),
-  }));
 
   return (
     <div className="flex w-full h-screen bg-gray-100 overflow-hidden">
@@ -105,7 +91,7 @@ const DataMasyarakat = () => {
 
           <Table
             columns={columns}
-            data={sanitizedData}
+            data={currentData}
             onDetail={handleDetail}
             onDelete={handleDelete}
           />

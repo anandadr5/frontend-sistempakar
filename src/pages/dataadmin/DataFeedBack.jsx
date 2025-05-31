@@ -10,14 +10,6 @@ import Pagination from "@/components/admin/pagination";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const escapeHTML = (str) =>
-  String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
 const DataFeedBack = () => {
   const columns = [
     { label: "ID", field: "id" },
@@ -59,12 +51,6 @@ const DataFeedBack = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
-  const sanitizedData = currentData.map((item) => ({
-    ...item,
-    nama: escapeHTML(item.nama),
-    email: escapeHTML(item.email),
-    pesan: escapeHTML(item.pesan),
-  }));
 
   return (
     <div className="flex w-full h-screen bg-gray-100 overflow-hidden">
@@ -82,7 +68,7 @@ const DataFeedBack = () => {
 
           <Table
             columns={columns}
-            data={sanitizedData}
+            data={currentData}
             onDelete={handleDelete}
             showDetailAction={false}
           />
