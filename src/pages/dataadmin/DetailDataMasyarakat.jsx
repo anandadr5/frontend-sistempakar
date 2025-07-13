@@ -41,6 +41,22 @@ const DetailDataMasyarakat = () => {
     );
   }
 
+  const handlePrint = () => {
+    const originalTitle = document.title;
+
+    const today = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
+    const cleanNama = data.nama.replace(/\s+/g, "");
+    const fileTitle = `Hasil_Diagnosis_${cleanNama}_${today}`;
+
+    document.title = fileTitle;
+
+    window.print();
+
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 1000);
+  };
+
   return (
     <div className="flex w-full h-screen bg-gray-100 overflow-hidden">
       <aside className="w-1/4 sm:w-1/5 h-full bg-white shadow-lg no-print">
@@ -97,7 +113,7 @@ const DetailDataMasyarakat = () => {
               Kembali
             </Button>
 
-            <Button onClick={() => window.print()}>Cetak Hasil</Button>
+            <Button onClick={handlePrint}>Cetak Hasil</Button>
           </div>
         </section>
 
