@@ -45,7 +45,7 @@ const DetailDataMasyarakat = () => {
     const originalTitle = document.title;
 
     const today = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
-    const cleanNama = data.nama.replace(/\s+/g, "");
+    const cleanNama = detailData.nama.replace(/\s+/g, "");
     const fileTitle = `Hasil_Diagnosis_${cleanNama}_${today}`;
 
     document.title = fileTitle;
