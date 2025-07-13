@@ -46,8 +46,8 @@ const DetailDataMasyarakat = () => {
 
     let fileDate;
     if (detailData.created_at) {
-      const createdDate = new Date(detailData.created_at);
-      fileDate = createdDate.toLocaleDateString("id-ID").replace(/\//g, "-");
+      const dateOnly = detailData.created_at.split(" ")[0];
+      fileDate = dateOnly;
     } else {
       fileDate = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
     }
