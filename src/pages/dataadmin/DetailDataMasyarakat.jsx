@@ -56,7 +56,7 @@ const DetailDataMasyarakat = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-black">
-            <DataCard title="Data Diri">
+            <DataCard title="Data Diri" className="print-area">
               <p>Nama: {detailData.nama}</p>
               <p>Usia: {detailData.usia} tahun</p>
               <p>Jenis Kelamin: {detailData.jenis_kelamin}</p>
@@ -85,7 +85,7 @@ const DetailDataMasyarakat = () => {
             </div>
           </div>
 
-          <div className="mt-6 w-full md:w-1/2 mx-auto flex flex-row justify-center items-center gap-4">
+          <div className="mt-6 w-full md:w-1/2 mx-auto flex flex-row justify-center items-center gap-4 no-print">
             <Button
               onClick={() => {
                 setIsLoading(true);

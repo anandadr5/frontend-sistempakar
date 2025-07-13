@@ -54,7 +54,7 @@ const HasilDiagnosis = () => {
         subtitle="Analisis Gejala dan Diagnosis Penyakit Jantung dengan Sistem Pakar Berbasis Fuzzy Mamdani"
       />
 
-      <div className="flex flex-col items-center w-full max-w-4xl px-6 py-10 space-y-6">
+      <div className="print-area flex flex-col items-center w-full max-w-4xl px-6 py-10 space-y-6">
         <DataCard title="Data & Hasil Diagnosis">
           <div className="space-y-1">
             <p className="text-base font-medium text-black">
@@ -102,32 +102,32 @@ const HasilDiagnosis = () => {
             </p>
           </div>
         </DataCard>
+      </div>
 
-        <div className="flex justify-center w-full max-w-md gap-4">
-          <Button
-            className="w-full p-3 rounded-lg bg-black text-white font-medium"
-            onClick={() => {
-              setIsLoading(true);
-              setTimeout(() => {
-                navigate("/inputpage");
-              }, 300);
-            }}
-            type="button"
-          >
-            Kembali ke Diagnosis
-          </Button>
-          <Button
-            className="w-full p-3 rounded-lg bg-black text-white font-medium"
-            type="button"
-            onClick={handlePrint}
-          >
-            Cetak Hasil
-          </Button>
-        </div>
+      <div className="flex justify-center w-full max-w-md gap-4 no-print">
+        <Button
+          className="w-full p-3 rounded-lg bg-black text-white font-medium"
+          onClick={() => {
+            setIsLoading(true);
+            setTimeout(() => {
+              navigate("/inputpage");
+            }, 300);
+          }}
+          type="button"
+        >
+          Kembali ke Diagnosis
+        </Button>
+        <Button
+          className="w-full p-3 rounded-lg bg-black text-white font-medium"
+          type="button"
+          onClick={handlePrint}
+        >
+          Cetak Hasil
+        </Button>
       </div>
 
       <div className="w-full border-t border-gray-300 my-10" />
-      <Footer />
+      <Footer className="no-print" />
 
       {/* Fullscreen Loader */}
       {isLoading && <FullScreenLoader />}

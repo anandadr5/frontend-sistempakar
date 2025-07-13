@@ -76,3 +76,33 @@ button:focus-visible {
     color: #747bff;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible !important;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+  }
+
+  /* Sembunyikan tombol, navbar, footer */
+  .no-print {
+    display: none !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 20mm;
+  }
+}
