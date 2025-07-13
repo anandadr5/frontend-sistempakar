@@ -44,12 +44,16 @@ const DetailDataMasyarakat = () => {
   const handlePrint = () => {
     const originalTitle = document.title;
 
-    const createdAt = new Date(detailData.created_at);
-    const tanggalDiagnosis = createdAt
-      .toLocaleDateString("id-ID")
-      .replace(/\//g, "-");
+    let fileDate;
+    if (detailData.created_at) {
+      const createdDate = new Date(detailData.created_at);
+      fileDate = createdDate.toLocaleDateString("id-ID").replace(/\//g, "-");
+    } else {
+      fileDate = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
+    }
+
     const cleanNama = detailData.nama.replace(/\s+/g, "");
-    const fileTitle = `Hasil_Diagnosis_${cleanNama}_${tanggalDiagnosis}`;
+    const fileTitle = `Hasil_Diagnosis_${cleanNama}_${fileDate}`;
 
     document.title = fileTitle;
 
