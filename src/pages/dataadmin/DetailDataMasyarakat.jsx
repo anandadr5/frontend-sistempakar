@@ -46,8 +46,14 @@ const DetailDataMasyarakat = () => {
 
     let fileDate;
     if (detailData.created_at) {
-      const dateOnly = detailData.created_at.split(" ")[0];
-      fileDate = dateOnly;
+      const tanggal = new Date(detailData.created_at);
+      fileDate = tanggal
+        .toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-");
     } else {
       fileDate = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
     }
@@ -90,7 +96,15 @@ const DetailDataMasyarakat = () => {
               </p>
               <p>
                 Tanggal Diagnosis:{" "}
-                {new Date(detailData.created_at).toLocaleString("id-ID")}
+                {detailData.created_at
+                  ? new Date(detailData.created_at).toLocaleString("id-ID", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : "-"}
               </p>
             </DataCard>
 
