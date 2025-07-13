@@ -44,9 +44,12 @@ const DetailDataMasyarakat = () => {
   const handlePrint = () => {
     const originalTitle = document.title;
 
-    const today = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
+    const createdAt = new Date(detailData.created_at);
+    const tanggalDiagnosis = createdAt
+      .toLocaleDateString("id-ID")
+      .replace(/\//g, "-");
     const cleanNama = detailData.nama.replace(/\s+/g, "");
-    const fileTitle = `Hasil_Diagnosis_${cleanNama}_${today}`;
+    const fileTitle = `Hasil_Diagnosis_${cleanNama}_${tanggalDiagnosis}`;
 
     document.title = fileTitle;
 
@@ -80,6 +83,10 @@ const DetailDataMasyarakat = () => {
               <p>Tinggi Badan: {detailData.tinggi_badan} cm</p>
               <p>
                 BMI: {detailData.bmi} ({detailData.kategori_bmi})
+              </p>
+              <p>
+                Tanggal Diagnosis:{" "}
+                {new Date(detailData.created_at).toLocaleString("id-ID")}
               </p>
             </DataCard>
 
