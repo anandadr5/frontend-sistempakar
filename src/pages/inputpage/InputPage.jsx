@@ -29,6 +29,17 @@ const InputPage = () => {
     "Keringat dingin",
   ];
 
+  const symptomMapping = {
+    "Nyeri dada": "nyeri dada",
+    "Sesak napas": "sesak napas",
+    Pusing: "pusing",
+    Lemas: "lemas",
+    "Jantung berdebar": "jantung berdebar",
+    "Mudah lelah": "mudah lelah",
+    "Bengkak pada kaki": "bengkak pada kaki",
+    "Keringat dingin": "keringat dingin",
+  };
+
   const formFields = [
     { label: "Nama", type: "text", id: "nama" },
     { label: "Usia", type: "number", id: "usia" },
@@ -85,11 +96,15 @@ const InputPage = () => {
     } else {
       setLoading(true);
 
-      // Normalize gejala sebelum kirim
-      const normalizedSymptoms = {};
-      Object.entries(selectedSymptoms).forEach(([key, value]) => {
-        normalizedSymptoms[key.toLowerCase()] = value.toLowerCase();
+      // MAPPING GEJALA YANG BENAR untuk backend
+      const mappedSymptoms = {};
+      Object.entries(selectedSymptoms).forEach(([frontendKey, value]) => {
+        const backendKey = symptomMapping[frontendKey];
+        mappedSymptoms[backendKey] = value.toLowerCase();
       });
+
+      console.log("🔍 DEBUG - Original symptoms:", selectedSymptoms);
+      console.log("🔍 DEBUG - Mapped symptoms:", mappedSymptoms);
 
       try {
         const response = await fetch(`${BASE_URL}/api/diagnosis`, {
@@ -101,7 +116,7 @@ const InputPage = () => {
             gender: formData.gender,
             weight: formData.weight,
             height: formData.height,
-            gejala: normalizedSymptoms,
+            gejala: mappedSymptoms,
           }),
         });
 
