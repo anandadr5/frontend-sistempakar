@@ -85,6 +85,12 @@ const InputPage = () => {
     } else {
       setLoading(true);
 
+      // Normalize gejala sebelum kirim
+      const normalizedSymptoms = {};
+      Object.entries(selectedSymptoms).forEach(([key, value]) => {
+        normalizedSymptoms[key.toLowerCase()] = value.toLowerCase();
+      });
+
       try {
         const response = await fetch(`${BASE_URL}/api/diagnosis`, {
           method: "POST",
@@ -95,7 +101,7 @@ const InputPage = () => {
             gender: formData.gender,
             weight: formData.weight,
             height: formData.height,
-            gejala: selectedSymptoms,
+            gejala: normalizedSymptoms,
           }),
         });
 
