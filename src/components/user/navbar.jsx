@@ -46,16 +46,16 @@ const Navbar = () => {
           alt="Logo"
           className="w-10 h-10 sm:w-14 sm:h-14 rounded-full object-cover"
         />
-        <p className="text-sm font-medium text-black block sm:hidden">
-          Sistem Pakar Diagnosis
+        <p className="text-sm font-medium text-black block md:hidden">
+          Diagnosis Penyakit
         </p>
-        <p className="ml-2 text-lg sm:text-2xl font-medium text-black hidden sm:block">
+        <p className="ml-2 text-lg sm:text-2xl font-medium text-black hidden md:block">
           Sistem Pakar Diagnosis Penyakit Jantung
         </p>
       </div>
 
       {/* Menu Desktop */}
-      <div className="hidden md:flex gap-5 ml-auto">
+      <div className="hidden md:flex gap-3 lg:gap-6 ml-auto">
         {navItems.map((label) => (
           <p
             key={label}
