@@ -46,16 +46,16 @@ const Navbar = () => {
           alt="Logo"
           className="w-10 h-10 sm:w-14 sm:h-14 rounded-full object-cover"
         />
-        <p className="text-sm font-medium text-black block md:hidden">
+        <p className="text-sm font-medium text-black block lg:hidden">
           Diagnosis Penyakit
         </p>
-        <p className="ml-2 text-lg sm:text-2xl font-medium text-black hidden md:block">
+        <p className="ml-2 text-lg sm:text-2xl font-medium text-black hidden lg:block">
           Sistem Pakar Diagnosis Penyakit Jantung
         </p>
       </div>
 
       {/* Menu Desktop */}
-      <div className="hidden md:flex gap-3 lg:gap-6 ml-auto">
+      <div className="hidden lg:flex gap-3 xl:gap-6 ml-auto">
         {navItems.map((label) => (
           <p
             key={label}
@@ -68,7 +68,7 @@ const Navbar = () => {
       </div>
 
       {/* Hamburger Mobile */}
-      <div className="md:hidden ml-auto">
+      <div className="lg:hidden ml-auto">
         <Button
           onClick={() => setIsOpen(!isOpen)}
           className="bg-[#01796f] p-2 rounded"
@@ -91,7 +91,7 @@ const Navbar = () => {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="absolute top-20 left-0 w-full bg-white shadow-md flex flex-col items-start p-4 md:hidden z-40">
+        <div className="absolute top-20 left-0 w-full bg-white shadow-md flex flex-col items-start p-4 lg:hidden z-40">
           {navItems.map((label) => (
             <p
               key={label}
