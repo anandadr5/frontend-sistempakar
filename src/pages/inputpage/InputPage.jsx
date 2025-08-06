@@ -30,14 +30,14 @@ const InputPage = () => {
   ];
 
   const symptomMapping = {
-    "Nyeri dada": "nyeri_dada",
-    "Sesak napas": "sesak_napas",
+    "Nyeri dada": "nyeri dada",
+    "Sesak napas": "sesak napas",
     Pusing: "pusing",
     Lemas: "lemas",
-    "Jantung berdebar": "jantung_berdebar",
-    "Mudah lelah": "mudah_lelah",
-    "Bengkak pada kaki": "bengkak_kaki",
-    "Keringat dingin": "keringat_dingin",
+    "Jantung berdebar": "jantung berdebar",
+    "Mudah lelah": "mudah lelah",
+    "Bengkak pada kaki": "bengkak pada kaki",
+    "Keringat dingin": "keringat dingin",
   };
 
   const formFields = [
