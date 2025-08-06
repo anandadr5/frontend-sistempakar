@@ -30,14 +30,14 @@ const InputPage = () => {
   ];
 
   const symptomMapping = {
-    "Nyeri dada": "nyeri dada",
-    "Sesak napas": "sesak napas",
-    Pusing: "pusing",
-    Lemas: "lemas",
-    "Jantung berdebar": "jantung berdebar",
-    "Mudah lelah": "mudah lelah",
-    "Bengkak pada kaki": "bengkak pada kaki",
-    "Keringat dingin": "keringat dingin",
+    nyeri_dada: "nyeri_dada",
+    sesak_napas: "sesak_napas",
+    pusing: "pusing",
+    lemas: "lemas",
+    jantung_berdebar: "jantung_berdebar",
+    mudah_lelah: "mudah_lelah",
+    bengkak_kaki: "bengkak_kaki",
+    keringat_dingin: "keringat_dingin",
   };
 
   const formFields = [
@@ -99,7 +99,8 @@ const InputPage = () => {
       // MAPPING GEJALA YANG BENAR untuk backend
       const mappedSymptoms = {};
       Object.entries(selectedSymptoms).forEach(([frontendKey, value]) => {
-        const backendKey = symptomMapping[frontendKey];
+        const normalizedKey = frontendKey.toLowerCase().replace(/\s/g, "_");
+        const backendKey = symptomMapping[normalizedKey];
         mappedSymptoms[backendKey] = value.toLowerCase();
       });
 
