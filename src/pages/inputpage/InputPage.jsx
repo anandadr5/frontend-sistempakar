@@ -30,14 +30,14 @@ const InputPage = () => {
   ];
 
   const symptomMapping = {
-    nyeri_dada: "nyeri_dada",
-    sesak_napas: "sesak_napas",
-    pusing: "pusing",
-    lemas: "lemas",
-    jantung_berdebar: "jantung_berdebar",
-    mudah_lelah: "mudah_lelah",
-    bengkak_kaki: "bengkak_kaki",
-    keringat_dingin: "keringat_dingin",
+    "Nyeri dada": "nyeri_dada",
+    "Sesak napas": "sesak_napas",
+    "Pusing ": "pusing",
+    "Lemas ": "lemas",
+    "Jantung berdebar": "jantung_berdebar",
+    "Mudah lelah": "mudah_lelah",
+    "Bengkak pada kaki": "bengkak_kaki",
+    "Keringat dingin": "keringat_dingin",
   };
 
   const formFields = [
@@ -99,8 +99,8 @@ const InputPage = () => {
       // MAPPING GEJALA YANG BENAR untuk backend
       const mappedSymptoms = {};
       Object.entries(selectedSymptoms).forEach(([frontendKey, value]) => {
-        const normalizedKey = frontendKey.toLowerCase().replace(/\s/g, "_");
-        mappedSymptoms[normalizedKey] = value.toLowerCase();
+        const backendKey = symptomMapping[frontendKey.trim()];
+        mappedSymptoms[backendKey] = value.toLowerCase();
       });
 
       console.log("🔍 DEBUG - Original symptoms:", selectedSymptoms);
