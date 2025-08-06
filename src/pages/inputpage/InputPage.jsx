@@ -100,8 +100,7 @@ const InputPage = () => {
       const mappedSymptoms = {};
       Object.entries(selectedSymptoms).forEach(([frontendKey, value]) => {
         const normalizedKey = frontendKey.toLowerCase().replace(/\s/g, "_");
-        const backendKey = symptomMapping[normalizedKey];
-        mappedSymptoms[backendKey] = value.toLowerCase();
+        mappedSymptoms[normalizedKey] = value.toLowerCase();
       });
 
       console.log("🔍 DEBUG - Original symptoms:", selectedSymptoms);
