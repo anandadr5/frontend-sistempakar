@@ -32,8 +32,8 @@ const InputPage = () => {
   const symptomMapping = {
     "Nyeri dada": "nyeri_dada",
     "Sesak napas": "sesak_napas",
-    "Pusing ": "pusing",
-    "Lemas ": "lemas",
+    Pusing: "pusing",
+    Lemas: "lemas",
     "Jantung berdebar": "jantung_berdebar",
     "Mudah lelah": "mudah_lelah",
     "Bengkak pada kaki": "bengkak_kaki",
@@ -99,7 +99,7 @@ const InputPage = () => {
       // MAPPING GEJALA YANG BENAR untuk backend
       const mappedSymptoms = {};
       Object.entries(selectedSymptoms).forEach(([frontendKey, value]) => {
-        const backendKey = symptomMapping[frontendKey.trim()];
+        const backendKey = symptomMapping[frontendKey];
         mappedSymptoms[backendKey] = value.toLowerCase();
       });
 
