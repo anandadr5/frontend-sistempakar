@@ -25,9 +25,12 @@ const HasilDiagnosis = () => {
       } catch (error) {
         console.error("❌ Error parsing hasil diagnosis:", error);
         localStorage.removeItem("hasilDiagnosis");
+        navigate("/inputpage"); // redirect kalau parsing gagal
       }
+    } else {
+      navigate("/inputpage"); // redirect kalau tidak ada data
     }
-  }, []);
+  }, [navigate]);
 
   // Format persentase untuk tampilan
   const formatPersentase = (nilai) => {
