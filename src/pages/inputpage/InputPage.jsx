@@ -30,14 +30,14 @@ const InputPage = () => {
   ];
 
   const symptomMapping = {
-    "Nyeri dada": "nyeri dada",
-    "Sesak napas": "sesak napas",
+    "Nyeri dada": "nyeri_dada",
+    "Sesak napas": "sesak_napas",
     Pusing: "pusing",
     Lemas: "lemas",
-    "Jantung berdebar": "jantung berdebar",
+    "Jantung berdebar": "jantung_berdebar",
     "Mudah lelah": "mudah lelah",
-    "Bengkak pada kaki": "bengkak pada kaki",
-    "Keringat dingin": "keringat dingin",
+    "Bengkak pada kaki": "bengkak_kaki",
+    "Keringat dingin": "keringat_dingin",
   };
 
   const formFields = [
@@ -146,9 +146,6 @@ const InputPage = () => {
         mappedSymptoms[backendKey] = value.toLowerCase();
       });
 
-      console.log("🔍 DEBUG - Original symptoms:", selectedSymptoms);
-      console.log("🔍 DEBUG - Mapped symptoms:", mappedSymptoms);
-
       try {
         const response = await fetch(`${BASE_URL}/api/diagnosis`, {
           method: "POST",
@@ -198,59 +195,18 @@ const InputPage = () => {
             {formFields.map(({ label, type, id, helper }) => (
               <div key={id} className="flex flex-col">
                 <Label className="text-sm font-semibold mb-1">{label}</Label>
-
-                {id === "gender" ? (
-                  <select
-                    id={id}
-                    name={id}
-                    value={formData[id]}
-                    onChange={handleInputChange}
-                    className="w-full h-[50px] px-2.5 py-[15px] border border-black rounded-md bg-white text-gray-600"
-                  >
-                    <option value="" disabled hidden>
-                      Pilih Jenis Kelamin
-                    </option>
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                  </select>
-                ) : (
-                  <Input
-                    type={type}
-                    id={id}
-                    name={id}
-                    value={formData[id]}
-                    onChange={handleInputChange}
-                    placeholder={`Masukkan ${label}`}
-                    step={id === "height" ? "0.01" : undefined}
-                    className="py-3 px-4 w-full border border-gray-300 rounded-lg"
-                  />
-                )}
-
+                <Input
+                  type={type}
+                  id={id}
+                  name={id}
+                  value={formData[id]}
+                  onChange={handleInputChange}
+                  placeholder={`Masukkan ${label}`}
+                  className="py-3 px-4 w-full border border-gray-300 rounded-lg"
+                />
                 {helper && (
                   <p className="text-xs text-gray-500 mt-1">{helper}</p>
                 )}
-              </div>
-            ))}
-
-            {additionalFields.map(({ label, id, options }) => (
-              <div key={id} className="flex flex-col">
-                <Label className="text-sm font-semibold mb-1">{label}</Label>
-                <select
-                  id={id}
-                  name={id}
-                  value={formData[id] || ""}
-                  onChange={handleInputChange}
-                  className="w-full h-[50px] px-2.5 py-[15px] border border-black rounded-md bg-white text-gray-600"
-                >
-                  <option value="" disabled hidden>
-                    Pilih {label}
-                  </option>
-                  {options.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
               </div>
             ))}
           </div>
