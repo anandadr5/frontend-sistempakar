@@ -88,6 +88,40 @@ const HasilDiagnosis = () => {
     return "text-gray-600";
   };
 
+  // Get blood pressure category and color
+  const getBloodPressureCategory = (sistolik, diastolik) => {
+    if (!sistolik || !diastolik)
+      return {
+        category: "Tidak diketahui",
+        color: "bg-gray-100 text-gray-800",
+      };
+
+    if (sistolik < 120 && diastolik < 80) {
+      return { category: "Normal", color: "bg-green-100 text-green-800" };
+    } else if (sistolik < 130 && diastolik < 80) {
+      return { category: "Elevated", color: "bg-yellow-100 text-yellow-800" };
+    } else if (
+      (sistolik >= 130 && sistolik < 140) ||
+      (diastolik >= 80 && diastolik < 90)
+    ) {
+      return {
+        category: "Stage 1 Hypertension",
+        color: "bg-orange-100 text-orange-800",
+      };
+    } else if (sistolik >= 140 || diastolik >= 90) {
+      return {
+        category: "Stage 2 Hypertension",
+        color: "bg-red-100 text-red-800",
+      };
+    } else if (sistolik > 180 || diastolik > 120) {
+      return {
+        category: "Hypertensive Crisis",
+        color: "bg-red-200 text-red-900",
+      };
+    }
+    return { category: "Tidak diketahui", color: "bg-gray-100 text-gray-800" };
+  };
+
   const handlePrint = () => {
     const originalTitle = document.title;
 
@@ -215,20 +249,14 @@ const HasilDiagnosis = () => {
               </p>
               <p className="text-base text-gray-800">
                 <span className="font-semibold">Tekanan Darah:</span>{" "}
-                {data.sistolik}/{data.diastolik} mmHg
-                {data.kategori_tekanan_darah && (
-                  <span
-                    className={`ml-2 px-2 py-1 text-xs rounded ${
-                      data.kategori_tekanan_darah === "Normal"
-                        ? "bg-green-100 text-green-800"
-                        : data.kategori_tekanan_darah.includes("Hipertensi")
-                        ? "bg-red-100 text-red-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {data.kategori_tekanan_darah}
-                  </span>
-                )}
+                <span className="font-medium">
+                  {data.sistolik || "N/A"}/{data.diastolik || "N/A"} mmHg
+                </span>
+                <span
+                  className={`ml-2 px-2 py-1 text-xs rounded ${bpInfo.color}`}
+                >
+                  {bpInfo.category}
+                </span>
               </p>
             </div>
           </div>
