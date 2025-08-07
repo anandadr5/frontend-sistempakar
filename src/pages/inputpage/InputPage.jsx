@@ -347,37 +347,33 @@ const InputPage = () => {
         <section className="w-full flex flex-col items-center px-4 py-16 bg-[#d6eadf]">
           <div className="text-center mb-10">
             <p className="text-4xl md:text-5xl font-semibold text-black">
-              Gejala <span className="text-red-500">*</span>
+              Gejala
             </p>
             <p className="text-base md:text-lg text-black mt-2">
               Pilih gejala yang dialami
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+          <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
             {symptoms.map((symptom, index) => (
-              <div
-                key={index}
-                className="flex flex-col gap-2 w-full bg-white p-4 rounded-lg shadow-sm"
-              >
-                <Label className="text-sm font-medium text-black mb-2">
+              <div key={index} className="flex flex-col gap-1 w-full">
+                <Label className="text-sm font-medium text-black">
                   {symptom}
                 </Label>
                 <div className="flex gap-2">
                   {["Ya", "Tidak"].map((option) => (
-                    <button
+                    <div
                       key={option}
-                      type="button"
                       onClick={() => handleSymptomSelection(symptom, option)}
-                      className={`flex justify-center items-center w-full p-3 rounded-md transition-all duration-200 font-medium
-                        ${
-                          selectedSymptoms[symptom] === option
-                            ? "bg-green-500 text-white shadow-md"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
+                      className={`flex justify-center items-center w-full p-2 rounded-md cursor-pointer transition-colors
+                ${
+                  selectedSymptoms[symptom] === option
+                    ? "bg-green-400 text-white"
+                    : "bg-black/10 text-black"
+                }`}
                     >
-                      {option}
-                    </button>
+                      <p className="text-sm">{option}</p>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -400,25 +396,6 @@ const InputPage = () => {
                   }}
                 ></div>
               </div>
-            </div>
-
-            {/* Tombol Submit */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-              <Button
-                className="w-full sm:w-48 p-3 rounded-lg bg-gray-600 hover:bg-gray-700 font-medium text-white transition-colors"
-                onClick={handleReset}
-                type="button"
-              >
-                Reset Form
-              </Button>
-              <Button
-                className="w-full sm:w-48 p-3 rounded-lg bg-blue-600 hover:bg-blue-700 font-medium text-white transition-colors"
-                onClick={handleSubmit}
-                type="button"
-                disabled={loading}
-              >
-                {loading ? "Memproses..." : "Analisis Diagnosis"}
-              </Button>
             </div>
 
             {/* Tombol Submit */}
