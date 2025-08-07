@@ -58,10 +58,41 @@ const InputPage = () => {
     },
   ];
 
+  const additionalFields = [
+    {
+      label: "Riwayat Penyakit",
+      id: "riwayat_penyakit",
+      type: "select",
+      options: ["Ya", "Tidak"],
+    },
+    {
+      label: "Riwayat Merokok",
+      id: "riwayat_merokok",
+      type: "select",
+      options: ["Ya", "Tidak"],
+    },
+    {
+      label: "Aspek Psikologis",
+      id: "aspek_psikologis",
+      type: "select",
+      options: [
+        "Tenang",
+        "Takut",
+        "Marah",
+        "Depresi",
+        "Cemas",
+        "Kecenderungan Bunuh Diri",
+      ],
+    },
+  ];
+
   // State
+  const allFormFields = [...formFields, ...additionalFields];
+
   const [formData, setFormData] = useState(
-    formFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
+    allFormFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
   );
+
   const [selectedSymptoms, setSelectedSymptoms] = useState({});
   const [popupVisible, setPopupVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -80,7 +111,7 @@ const InputPage = () => {
   // Reset semua input
   const handleReset = () => {
     setFormData(
-      formFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
+      allFormFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
     );
     setSelectedSymptoms({});
   };
@@ -116,6 +147,9 @@ const InputPage = () => {
             gender: formData.gender,
             weight: formData.weight,
             height: formData.height,
+            riwayat_penyakit: formData.riwayat_penyakit,
+            riwayat_merokok: formData.riwayat_merokok,
+            aspek_psikologis: formData.aspek_psikologis,
             gejala: mappedSymptoms,
           }),
         });
@@ -181,6 +215,28 @@ const InputPage = () => {
                 {helper && (
                   <p className="text-xs text-gray-500 mt-1">{helper}</p>
                 )}
+              </div>
+            ))}
+
+            {additionalFields.map(({ label, id, options }) => (
+              <div key={id} className="flex flex-col">
+                <Label className="text-sm font-semibold mb-1">{label}</Label>
+                <select
+                  id={id}
+                  name={id}
+                  value={formData[id] || ""}
+                  onChange={handleInputChange}
+                  className="w-full h-[50px] px-2.5 py-[15px] border border-black rounded-md bg-white text-gray-600"
+                >
+                  <option value="" disabled hidden>
+                    Pilih {label}
+                  </option>
+                  {options.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
               </div>
             ))}
           </div>
