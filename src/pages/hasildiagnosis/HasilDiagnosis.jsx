@@ -57,6 +57,21 @@ const HasilDiagnosis = () => {
     return "text-gray-600";
   };
 
+  // Get percentage color based on risk level
+  const getPercentageColor = (persentase) => {
+    if (typeof persentase !== "number") return "text-gray-600";
+
+    if (persentase < 25) {
+      return "text-green-600";
+    } else if (persentase < 50) {
+      return "text-yellow-600";
+    } else if (persentase < 75) {
+      return "text-orange-600";
+    } else {
+      return "text-red-600";
+    }
+  };
+
   // Get diagnosis status color
   const getDiagnosisColor = (diagnosis) => {
     if (!diagnosis) return "text-gray-600";
@@ -133,7 +148,7 @@ const HasilDiagnosis = () => {
               Silakan lakukan diagnosis terlebih dahulu untuk melihat hasilnya.
             </p>
             <Button
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-gray-800 rounded-lg font-medium transition-colors"
               onClick={() => navigate("/inputpage")}
             >
               Mulai Diagnosis
@@ -159,27 +174,27 @@ const HasilDiagnosis = () => {
         <DataCard title="📋 Informasi Pasien">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Nama:</span> {data.nama}
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Usia:</span> {data.usia} tahun
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Jenis Kelamin:</span>{" "}
                 {data.gender}
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Berat Badan:</span>{" "}
                 {data.weight} kg
               </p>
             </div>
             <div className="space-y-2">
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Tinggi Badan:</span>{" "}
                 {data.height} cm
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">BMI:</span> {data.bmi}
                 <span
                   className={`ml-2 px-2 py-1 text-xs rounded ${
@@ -195,7 +210,7 @@ const HasilDiagnosis = () => {
                   {data.kategori_bmi}
                 </span>
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Tekanan Darah:</span>{" "}
                 {data.sistolik}/{data.diastolik} mmHg
                 {data.kategori_tekanan_darah && (
@@ -217,9 +232,11 @@ const HasilDiagnosis = () => {
 
           {/* Data Tambahan */}
           <div className="mt-6 pt-6 border-t border-gray-200">
-            <h4 className="font-semibold text-lg mb-3">Data Tambahan</h4>
+            <h4 className="font-semibold text-lg mb-3 text-gray-800">
+              Data Tambahan
+            </h4>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Riwayat Penyakit:</span>
                 <span
                   className={
@@ -231,7 +248,7 @@ const HasilDiagnosis = () => {
                   {data.riwayat_penyakit}
                 </span>
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Riwayat Merokok:</span>
                 <span
                   className={
@@ -243,7 +260,7 @@ const HasilDiagnosis = () => {
                   {data.riwayat_merokok}
                 </span>
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-800">
                 <span className="font-semibold">Aspek Psikologis:</span>
                 <span
                   className={`ml-1 ${
@@ -273,14 +290,20 @@ const HasilDiagnosis = () => {
             >
               {data.diagnosis}
             </h3>
-            <div className="text-6xl font-bold mb-2">
+            <div
+              className={`text-6xl font-bold mb-2 ${getPercentageColor(
+                data.persentase
+              )}`}
+            >
               {formatPersentase(data.persentase)}%
             </div>
             <p className="text-gray-600">Tingkat Kepercayaan Sistem</p>
           </div>
 
           <div className="bg-gray-50 rounded-lg p-6">
-            <h4 className="font-semibold text-lg mb-3">Tingkat Risiko</h4>
+            <h4 className="font-semibold text-lg mb-3 text-gray-800">
+              Tingkat Risiko
+            </h4>
             <p
               className={`text-xl font-bold mb-4 ${getRiskColor(data.risiko)}`}
             >
@@ -305,10 +328,10 @@ const HasilDiagnosis = () => {
           </div>
 
           <div className="mt-6">
-            <h4 className="font-semibold text-lg mb-3">
+            <h4 className="font-semibold text-lg mb-3 text-gray-800">
               Gejala yang Terdeteksi
             </h4>
-            <p className="text-base bg-blue-50 p-4 rounded-lg">
+            <p className="text-base bg-blue-50 p-4 rounded-lg text-gray-800">
               {data.gejala || "Tidak ada gejala yang dilaporkan"}
             </p>
           </div>
@@ -329,14 +352,14 @@ const HasilDiagnosis = () => {
             {/* Rekomendasi tambahan jika ada */}
             {data.recommendations && data.recommendations.length > 0 && (
               <div className="mt-6">
-                <h4 className="font-semibold text-lg mb-3">
+                <h4 className="font-semibold text-lg mb-3 text-gray-800">
                   Rekomendasi Tambahan
                 </h4>
                 <div className="space-y-2">
                   {data.recommendations.map((rec, index) => (
                     <div key={index} className="flex items-start space-x-2">
                       <span className="text-green-500 mt-1">✓</span>
-                      <p className="text-base">{rec}</p>
+                      <p className="text-base text-gray-800">{rec}</p>
                     </div>
                   ))}
                 </div>
@@ -346,7 +369,9 @@ const HasilDiagnosis = () => {
             {/* Target values jika ada */}
             {data.targets && (
               <div className="mt-6">
-                <h4 className="font-semibold text-lg mb-3">Target Kesehatan</h4>
+                <h4 className="font-semibold text-lg mb-3 text-gray-800">
+                  Target Kesehatan
+                </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {Object.entries(data.targets).map(([key, value]) => (
                     <div key={key} className="bg-green-50 p-3 rounded">
@@ -396,7 +421,7 @@ const HasilDiagnosis = () => {
       {/* Action buttons */}
       <div className="flex flex-col sm:flex-row justify-center w-full max-w-md gap-4 mb-8 no-print">
         <Button
-          className="w-full sm:w-48 p-3 rounded-lg bg-gray-600 hover:bg-gray-700 text-white font-medium transition-colors"
+          className="w-full sm:w-48 p-3 rounded-lg bg-gray-600 hover:bg-gray-700 text-gray-800 font-medium transition-colors"
           onClick={handleBackToDiagnosis}
           type="button"
           disabled={isLoading}
@@ -404,7 +429,7 @@ const HasilDiagnosis = () => {
           {isLoading ? "Loading..." : "Diagnosis Baru"}
         </Button>
         <Button
-          className="w-full sm:w-48 p-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors"
+          className="w-full sm:w-48 p-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-gray-800 font-medium transition-colors"
           type="button"
           onClick={handlePrint}
         >
