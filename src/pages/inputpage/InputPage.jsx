@@ -278,10 +278,7 @@ const InputPage = () => {
             {formFields.map(({ label, type, id, helper, min, max, step }) => (
               <div key={id} className="flex flex-col">
                 <Label className="text-sm font-semibold mb-1">
-                  {label}{" "}
-                  {["nama", "usia", "gender", "weight", "height"].includes(
-                    id
-                  ) && <span className="text-red-500">*</span>}
+                  {label} <span className="text-red-500">*</span>
                 </Label>
 
                 {id === "gender" ? (
@@ -321,7 +318,9 @@ const InputPage = () => {
 
             {additionalFields.map(({ label, id, options }) => (
               <div key={id} className="flex flex-col">
-                <Label className="text-sm font-semibold mb-1">{label}</Label>
+                <Label className="text-sm font-semibold mb-1">
+                  {label} <span className="text-red-500">*</span>
+                </Label>
                 <select
                   id={id}
                   name={id}
@@ -405,7 +404,7 @@ const InputPage = () => {
                 onClick={handleReset}
                 type="button"
               >
-                Reset Form
+                Ulang
               </Button>
               <Button
                 className="w-full sm:w-48 p-3 rounded-lg bg-blue-600 hover:bg-blue-700 font-medium text-white transition-colors"
@@ -413,7 +412,7 @@ const InputPage = () => {
                 type="button"
                 disabled={loading}
               >
-                {loading ? "Memproses..." : "Analisis Diagnosis"}
+                {loading ? "Memproses..." : "Kirim"}
               </Button>
             </div>
           </div>
