@@ -56,6 +56,18 @@ const InputPage = () => {
       id: "height",
       helper: "Satuan cm",
     },
+    {
+      label: "Tekanan Darah Sistolik (Atas)",
+      type: "number",
+      id: "sistolik",
+      helper: "Contoh: 120",
+    },
+    {
+      label: "Tekanan Darah Diastolik (Bawah)",
+      type: "number",
+      id: "diastolik",
+      helper: "Contoh: 80",
+    },
   ];
 
   const additionalFields = [
@@ -63,7 +75,7 @@ const InputPage = () => {
       label: "Riwayat Penyakit",
       id: "riwayat_penyakit",
       type: "select",
-      options: ["Ya", "Tidak"],
+      options: ["Ada", "Tidak Ada"],
     },
     {
       label: "Riwayat Merokok",
@@ -147,6 +159,8 @@ const InputPage = () => {
             gender: formData.gender,
             weight: formData.weight,
             height: formData.height,
+            sistolik: formData.sistolik,
+            diastolik: formData.diastolik,
             riwayat_penyakit: formData.riwayat_penyakit,
             riwayat_merokok: formData.riwayat_merokok,
             aspek_psikologis: formData.aspek_psikologis,
@@ -179,8 +193,8 @@ const InputPage = () => {
         />
 
         {/* Form Data Pengguna */}
-        <form className="w-full max-w-[600px] mt-4 mb-6">
-          <div className="grid grid-cols-1 gap-6">
+        <form className="w-full max-w-[900px] mt-4 mb-6 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {formFields.map(({ label, type, id, helper }) => (
               <div key={id} className="flex flex-col">
                 <Label className="text-sm font-semibold mb-1">{label}</Label>
