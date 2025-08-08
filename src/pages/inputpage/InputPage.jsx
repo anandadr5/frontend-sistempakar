@@ -250,8 +250,8 @@ const InputPage = () => {
       const result = await response.json();
       console.log("✅ Hasil diagnosis:", result);
 
-      // Simpan result ke localStorage untuk halaman hasil
-      localStorage.setItem("hasilDiagnosis", JSON.stringify(result));
+      // Simpan result ke sessionStorage untuk halaman hasil
+      sessionStorageStorage.setItem("hasilDiagnosis", JSON.stringify(result));
       navigate("/hasildiagnosis");
     } catch (error) {
       console.error("❌ Gagal kirim data:", error);
