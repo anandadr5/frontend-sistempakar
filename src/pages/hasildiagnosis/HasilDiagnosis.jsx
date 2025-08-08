@@ -9,6 +9,46 @@ import DataCard from "@/components/user/datacard";
 
 import FullScreenLoader from "@/components/loading";
 
+// Fungsi kategori tekanan darah
+const getBloodPressureCategory = (sistolik, diastolik) => {
+  if (!sistolik || !diastolik) {
+    return {
+      category: "Data tidak lengkap",
+      color: "bg-gray-100 text-gray-800",
+    };
+  }
+
+  if (sistolik < 120 && diastolik < 80) {
+    return {
+      category: "Normal",
+      color: "bg-green-100 text-green-800",
+    };
+  } else if (sistolik >= 120 && sistolik < 130 && diastolik < 80) {
+    return {
+      category: "Elevated",
+      color: "bg-yellow-100 text-yellow-800",
+    };
+  } else if (
+    (sistolik >= 130 && sistolik < 140) ||
+    (diastolik >= 80 && diastolik < 90)
+  ) {
+    return {
+      category: "Hipertensi Tahap 1",
+      color: "bg-orange-100 text-orange-800",
+    };
+  } else if (sistolik >= 140 || diastolik >= 90) {
+    return {
+      category: "Hipertensi Tahap 2",
+      color: "bg-red-100 text-red-800",
+    };
+  } else {
+    return {
+      category: "Tidak diketahui",
+      color: "bg-gray-100 text-gray-800",
+    };
+  }
+};
+
 const HasilDiagnosis = () => {
   const navigate = useNavigate();
 
@@ -25,14 +65,14 @@ const HasilDiagnosis = () => {
       } catch (error) {
         console.error("❌ Error parsing hasil diagnosis:", error);
         sessionStorage.removeItem("hasilDiagnosis");
-        navigate("/inputpage"); // redirect kalau parsing gagal
+        navigate("/inputpage");
       }
     } else {
-      navigate("/inputpage"); // redirect kalau tidak ada data
+      navigate("/inputpage");
     }
   }, [navigate]);
 
-  // Format persentase untuk tampilan
+  // Format persentase
   const formatPersentase = (nilai) => {
     if (typeof nilai === "number") {
       return nilai.toFixed(1);
@@ -40,7 +80,7 @@ const HasilDiagnosis = () => {
     return nilai;
   };
 
-  // Get risk level color
+  // Warna risiko
   const getRiskColor = (risiko) => {
     if (!risiko) return "text-gray-600";
 
@@ -60,7 +100,7 @@ const HasilDiagnosis = () => {
     return "text-gray-600";
   };
 
-  // Get percentage color based on risk level
+  // Warna persentase
   const getPercentageColor = (persentase) => {
     if (typeof persentase !== "number") return "text-gray-600";
 
@@ -75,7 +115,7 @@ const HasilDiagnosis = () => {
     }
   };
 
-  // Get diagnosis status color
+  // Warna diagnosis
   const getDiagnosisColor = (diagnosis) => {
     if (!diagnosis) return "text-gray-600";
 
@@ -88,70 +128,29 @@ const HasilDiagnosis = () => {
     return "text-gray-600";
   };
 
-  // Get blood pressure category and color
-  const getBloodPressureCategory = (sistolik, diastolik) => {
-    if (!sistolik || !diastolik)
-      return {
-        category: "Tidak diketahui",
-        color: "bg-gray-100 text-gray-800",
-      };
-
-    if (sistolik < 120 && diastolik < 80) {
-      return { category: "Normal", color: "bg-green-100 text-green-800" };
-    } else if (sistolik < 130 && diastolik < 80) {
-      return { category: "Elevated", color: "bg-yellow-100 text-yellow-800" };
-    } else if (
-      (sistolik >= 130 && sistolik < 140) ||
-      (diastolik >= 80 && diastolik < 90)
-    ) {
-      return {
-        category: "Stage 1 Hypertension",
-        color: "bg-orange-100 text-orange-800",
-      };
-    } else if (sistolik >= 140 || diastolik >= 90) {
-      return {
-        category: "Stage 2 Hypertension",
-        color: "bg-red-100 text-red-800",
-      };
-    } else if (sistolik > 180 || diastolik > 120) {
-      return {
-        category: "Hypertensive Crisis",
-        color: "bg-red-200 text-red-900",
-      };
-    }
-    return { category: "Tidak diketahui", color: "bg-gray-100 text-gray-800" };
-  };
-
+  // Cetak hasil
   const handlePrint = () => {
     const originalTitle = document.title;
-
     const today = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
     const cleanNama = data?.nama ? data.nama.replace(/\s+/g, "") : "Unknown";
-    const fileTitle = `Hasil_Diagnosis_${cleanNama}_${today}`;
+    document.title = `Hasil_Diagnosis_${cleanNama}_${today}`;
 
-    document.title = fileTitle;
-
-    // Hide elements that shouldn't be printed
-    const noPrintElements = document.querySelectorAll(".no-print");
-    noPrintElements.forEach((el) => {
-      el.style.display = "none";
-    });
-
+    document
+      .querySelectorAll(".no-print")
+      .forEach((el) => (el.style.display = "none"));
     window.print();
-
-    // Restore elements after printing
     setTimeout(() => {
       document.title = originalTitle;
-      noPrintElements.forEach((el) => {
-        el.style.display = "";
-      });
+      document
+        .querySelectorAll(".no-print")
+        .forEach((el) => (el.style.display = ""));
     }, 1000);
   };
 
+  // Kembali ke diagnosis
   const handleBackToDiagnosis = () => {
     setIsLoading(true);
     setTimeout(() => {
-      // Clear sessionStorage
       sessionStorage.removeItem("hasilDiagnosis");
       navigate("/inputpage");
     }, 300);
@@ -196,6 +195,9 @@ const HasilDiagnosis = () => {
       </div>
     );
   }
+
+  // === Kalau data ada, hitung BP info ===
+  const bpInfo = getBloodPressureCategory(data.sistolik, data.diastolik);
 
   return (
     <div className="flex flex-col items-center w-full pt-20 bg-white">
