@@ -144,7 +144,18 @@ const InputPage = () => {
     const errors = [];
 
     // Validasi form data
-    const requiredFields = ["nama", "usia", "gender", "weight", "height"];
+    const requiredFields = [
+      "nama",
+      "usia",
+      "gender",
+      "weight",
+      "height",
+      "sistolik",
+      "diastolik",
+      "riwayat_penyakit",
+      "riwayat_merokok",
+      "aspek_psikologis",
+    ];
     requiredFields.forEach((field) => {
       if (!formData[field] || formData[field] === "") {
         const fieldName =
@@ -223,11 +234,11 @@ const InputPage = () => {
         gender: formData.gender,
         weight: parseFloat(formData.weight),
         height: parseFloat(formData.height),
-        sistolik: parseFloat(formData.sistolik || 120),
-        diastolik: parseFloat(formData.diastolik || 80),
-        riwayat_penyakit: formData.riwayat_penyakit || "Tidak Ada",
-        riwayat_merokok: formData.riwayat_merokok || "Tidak",
-        aspek_psikologis: formData.aspek_psikologis || "Tenang",
+        sistolik: parseFloat(formData.sistolik),
+        diastolik: parseFloat(formData.diastolik),
+        riwayat_penyakit: formData.riwayat_penyakit,
+        riwayat_merokok: formData.riwayat_merokok,
+        aspek_psikologis: formData.aspek_psikologis,
         gejala: mappedSymptoms,
       };
 

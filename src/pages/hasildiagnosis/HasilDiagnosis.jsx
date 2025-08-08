@@ -18,40 +18,41 @@ const getBloodPressureCategory = (sistolik, diastolik) => {
     };
   }
 
-  if (sistolik < 120 && diastolik < 80) {
+  if (sistolik < 90 || diastolik < 60) {
+    return {
+      category: "Hipotensi",
+      color: "bg-blue-100 text-blue-800",
+    };
+  } else if (sistolik <= 120 && diastolik <= 80) {
     return {
       category: "Normal",
       color: "bg-green-100 text-green-800",
     };
-  } else if (sistolik >= 120 && sistolik < 130 && diastolik < 80) {
+  } else if (sistolik <= 139 || diastolik <= 89) {
     return {
-      category: "Elevated",
+      category: "Prehipertensi",
       color: "bg-yellow-100 text-yellow-800",
     };
-  } else if (
-    (sistolik >= 130 && sistolik < 140) ||
-    (diastolik >= 80 && diastolik < 90)
-  ) {
+  } else if (sistolik <= 159 || diastolik <= 99) {
     return {
       category: "Hipertensi Tahap 1",
       color: "bg-orange-100 text-orange-800",
     };
-  } else if (sistolik >= 140 || diastolik >= 90) {
+  } else if (sistolik <= 179 || diastolik <= 109) {
     return {
       category: "Hipertensi Tahap 2",
       color: "bg-red-100 text-red-800",
     };
   } else {
     return {
-      category: "Tidak diketahui",
-      color: "bg-gray-100 text-gray-800",
+      category: "Hipertensi Darurat",
+      color: "bg-red-200 text-red-900",
     };
   }
 };
 
 const HasilDiagnosis = () => {
   const navigate = useNavigate();
-
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -77,13 +78,12 @@ const HasilDiagnosis = () => {
     if (typeof nilai === "number") {
       return nilai.toFixed(1);
     }
-    return nilai;
+    return nilai || "0.0";
   };
 
   // Warna risiko
   const getRiskColor = (risiko) => {
     if (!risiko) return "text-gray-600";
-
     const risikoLower = risiko.toLowerCase();
     if (risikoLower.includes("tidak ada") || risikoLower.includes("rendah")) {
       return "text-green-600";
@@ -103,7 +103,6 @@ const HasilDiagnosis = () => {
   // Warna persentase
   const getPercentageColor = (persentase) => {
     if (typeof persentase !== "number") return "text-gray-600";
-
     if (persentase < 25) {
       return "text-green-600";
     } else if (persentase < 50) {
@@ -118,7 +117,6 @@ const HasilDiagnosis = () => {
   // Warna diagnosis
   const getDiagnosisColor = (diagnosis) => {
     if (!diagnosis) return "text-gray-600";
-
     const diagnosisLower = diagnosis.toLowerCase();
     if (diagnosisLower.includes("tidak terdeteksi")) {
       return "text-green-600";
@@ -196,7 +194,7 @@ const HasilDiagnosis = () => {
     );
   }
 
-  // === Kalau data ada, hitung BP info ===
+  // Kalau data ada, hitung BP info ===
   const bpInfo = getBloodPressureCategory(data.sistolik, data.diastolik);
 
   return (
@@ -278,7 +276,7 @@ const HasilDiagnosis = () => {
                       : "text-green-600 ml-1"
                   }
                 >
-                  {data.riwayat_penyakit}
+                  {data.riwayat_penyakit || "Tidak Ada"}
                 </span>
               </p>
               <p className="text-base text-gray-800">
@@ -290,7 +288,7 @@ const HasilDiagnosis = () => {
                       : "text-green-600 ml-1"
                   }
                 >
-                  {data.riwayat_merokok}
+                  {data.riwayat_merokok || "Tidak"}
                 </span>
               </p>
               <p className="text-base text-gray-800">
@@ -306,7 +304,7 @@ const HasilDiagnosis = () => {
                       : "text-yellow-600"
                   }`}
                 >
-                  {data.aspek_psikologis}
+                  {data.aspek_psikologis || "Tenang"}
                 </span>
               </p>
             </div>
@@ -321,7 +319,7 @@ const HasilDiagnosis = () => {
                 data.diagnosis
               )}`}
             >
-              {data.diagnosis}
+              {data.diagnosis || "Tidak Ada Diagnosis"}
             </h3>
             <div
               className={`text-6xl font-bold mb-2 ${getPercentageColor(
@@ -340,7 +338,7 @@ const HasilDiagnosis = () => {
             <p
               className={`text-xl font-bold mb-4 ${getRiskColor(data.risiko)}`}
             >
-              {data.risiko}
+              {data.risiko || "Tidak Ada Risiko"}
             </p>
 
             {/* Progress bar untuk visualisasi risiko */}
@@ -378,7 +376,8 @@ const HasilDiagnosis = () => {
                 Saran Utama
               </h4>
               <p className="text-base text-blue-700 leading-relaxed">
-                {data.saran}
+                {data.saran ||
+                  "Konsultasikan dengan dokter untuk evaluasi lebih lanjut."}
               </p>
             </div>
 
