@@ -16,7 +16,7 @@ const HasilDiagnosis = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const hasil = localStorage.getItem("hasilDiagnosis");
+    const hasil = sessionStorage.getItem("hasilDiagnosis");
     if (hasil) {
       try {
         const parsedData = JSON.parse(hasil);
@@ -24,7 +24,7 @@ const HasilDiagnosis = () => {
         console.log("✅ Data hasil diagnosis:", parsedData);
       } catch (error) {
         console.error("❌ Error parsing hasil diagnosis:", error);
-        localStorage.removeItem("hasilDiagnosis");
+        sessionStorage.removeItem("hasilDiagnosis");
         navigate("/inputpage"); // redirect kalau parsing gagal
       }
     } else {
@@ -151,8 +151,8 @@ const HasilDiagnosis = () => {
   const handleBackToDiagnosis = () => {
     setIsLoading(true);
     setTimeout(() => {
-      // Clear localStorage
-      localStorage.removeItem("hasilDiagnosis");
+      // Clear sessionStorage
+      sessionStorage.removeItem("hasilDiagnosis");
       navigate("/inputpage");
     }, 300);
   };
