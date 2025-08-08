@@ -251,7 +251,7 @@ const InputPage = () => {
       console.log("✅ Hasil diagnosis:", result);
 
       // Simpan result ke sessionStorage untuk halaman hasil
-      sessionStorageStorage.setItem("hasilDiagnosis", JSON.stringify(result));
+      sessionStorage.setItem("hasilDiagnosis", JSON.stringify(result));
       navigate("/hasildiagnosis");
     } catch (error) {
       console.error("❌ Gagal kirim data:", error);
