@@ -43,7 +43,12 @@ const InputPage = () => {
   const formFields = [
     { label: "Nama", type: "text", id: "nama" },
     { label: "Usia", type: "number", id: "usia" },
-    { label: "Jenis Kelamin", type: "text", id: "gender" },
+    {
+      label: "Jenis Kelamin",
+      type: "select",
+      id: "gender",
+      options: ["Laki-laki", "Perempuan"],
+    },
     {
       label: "Berat Badan",
       type: "number",
@@ -181,7 +186,7 @@ const InputPage = () => {
         {/* Form Data Pengguna */}
         <form className="w-full max-w-[600px] mt-4 mb-6">
           <div className="grid grid-cols-2 gap-6">
-            {formFields.map(({ label, type, id, helper }) => (
+            {formFields.map(({ label, type, id, helper, options = [] }) => (
               <div key={id} className="flex flex-col">
                 <Label className="text-sm font-semibold mb-1">{label}</Label>
 
