@@ -56,6 +56,43 @@ const InputPage = () => {
       id: "height",
       helper: "Satuan cm",
     },
+    {
+      label: "Sistolik",
+      type: "number",
+      id: "sistolik",
+      helper: "Tekanan darah atas (e.g., 120 mmHg)",
+    },
+    {
+      label: "Diastolik",
+      type: "number",
+      id: "diastolik",
+      helper: "Tekanan darah bawah (e.g., 80 mmHg)",
+    },
+    {
+      label: "Riwayat Penyakit Jantung",
+      type: "select",
+      id: "riwayatPenyakit",
+      options: ["Ada", "Tidak Ada"],
+    },
+    {
+      label: "Riwayat Merokok",
+      type: "select",
+      id: "riwayatMerokok",
+      options: ["Ya", "Tidak"],
+    },
+    {
+      label: "Aspek Psikologis",
+      type: "select",
+      id: "aspekPsikologis",
+      options: [
+        "Tidak Ada Masalah/Tenang",
+        "Takut",
+        "Marah",
+        "Kecenderungan Bunuh Diri",
+        "Depresi",
+        "Cemas",
+      ],
+    },
   ];
 
   // State
@@ -112,11 +149,7 @@ const InputPage = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            nama: formData.nama,
-            usia: formData.usia,
-            gender: formData.gender,
-            weight: formData.weight,
-            height: formData.height,
+            ...formData,
             gejala: mappedSymptoms,
           }),
         });
@@ -147,12 +180,12 @@ const InputPage = () => {
 
         {/* Form Data Pengguna */}
         <form className="w-full max-w-[600px] mt-4 mb-6">
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-2 gap-6">
             {formFields.map(({ label, type, id, helper }) => (
               <div key={id} className="flex flex-col">
                 <Label className="text-sm font-semibold mb-1">{label}</Label>
 
-                {id === "gender" ? (
+                {type === "select" ? (
                   <select
                     id={id}
                     name={id}
@@ -161,10 +194,13 @@ const InputPage = () => {
                     className="w-full h-[50px] px-2.5 py-[15px] border border-black rounded-md bg-white text-gray-600"
                   >
                     <option value="" disabled hidden>
-                      Pilih Jenis Kelamin
+                      Pilih {label}
                     </option>
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
+                    {options.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </select>
                 ) : (
                   <Input
