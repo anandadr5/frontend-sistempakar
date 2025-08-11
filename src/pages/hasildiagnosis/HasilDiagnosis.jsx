@@ -25,12 +25,10 @@ const HasilDiagnosis = () => {
     if (typeof gejalaObj !== "object" || gejalaObj === null) {
       return "Data gejala tidak valid.";
     }
-
     const gejalaDialami = Object.entries(gejalaObj)
       .filter(([key, value]) => value === "ya")
       .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
       .join(", ");
-
     return gejalaDialami || "Tidak ada gejala yang dialami.";
   };
 
@@ -79,77 +77,94 @@ const HasilDiagnosis = () => {
 
       <div className="print-area flex flex-col items-center w-full max-w-4xl px-6 py-10 space-y-6">
         <DataCard title="Data & Hasil Diagnosis">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-black">
-            <p>
-              <span className="font-semibold">Nama:</span> {data.nama}
-            </p>
-            <p>
-              <span className="font-semibold">Usia:</span> {data.usia} tahun
-            </p>
-            <p>
-              <span className="font-semibold">Jenis Kelamin:</span>{" "}
-              {data.gender}
-            </p>
-            <p>
-              <span className="font-semibold">Berat Badan:</span> {data.weight}{" "}
-              kg
-            </p>
-            <p>
-              <span className="font-semibold">Tinggi Badan:</span> {data.height}{" "}
-              cm
-            </p>
-            <p>
-              <span className="font-semibold">BMI:</span> {data.bmi} (
-              {data.kategori_bmi})
-            </p>
-          </div>
-
-          <hr className="my-4 border-gray-300" />
-
-          <div className="space-y-2 text-black">
-            <p>
-              <span className="font-semibold">Tekanan Darah:</span>{" "}
-              {data.sistolik}/{data.diastolik} mmHg
-            </p>
-            <p>
-              <span className="font-semibold">Riwayat Penyakit Jantung:</span>{" "}
-              {data.riwayatPenyakit}
-            </p>
-            <p>
-              <span className="font-semibold">Riwayat Merokok:</span>{" "}
-              {data.riwayatMerokok}
-            </p>
-            <p>
-              <span className="font-semibold">Aspek Psikologis:</span>{" "}
-              {data.aspekPsikologis}
-            </p>
-          </div>
-
-          <hr className="my-4 border-gray-300" />
-
-          <div className="space-y-2 text-black">
-            <p>
-              <span className="font-semibold">Diagnosis:</span> {data.diagnosis}
-            </p>
-            <p>
-              <span className="font-semibold">Persentase Kemungkinan:</span>{" "}
-              {data.persentase}%
-            </p>
-            <p>
-              <span className="font-semibold">Tingkat Risiko:</span>{" "}
-              {data.risiko}
-            </p>
-            <p>
-              <span className="font-semibold">Gejala yang Dialami:</span>{" "}
-              {formatGejala(data.gejala)}
-            </p>
-          </div>
-
-          <hr className="my-4 border-gray-300" />
-
+          {/* Data Pasien */}
           <div className="text-black">
-            <p className="font-semibold">Saran:</p>
-            <p className="mt-1">{data.saran}</p>
+            <h3 className="font-semibold text-lg mb-2">Data Pasien</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+              <p>
+                <span className="font-semibold">Nama:</span> {data.nama}
+              </p>
+              <p>
+                <span className="font-semibold">Usia:</span> {data.usia} tahun
+              </p>
+              <p>
+                <span className="font-semibold">Jenis Kelamin:</span>{" "}
+                {data.gender}
+              </p>
+              <p>
+                <span className="font-semibold">Berat Badan:</span>{" "}
+                {data.weight} kg
+              </p>
+              <p>
+                <span className="font-semibold">Tinggi Badan:</span>{" "}
+                {data.height} cm
+              </p>
+              <p>
+                <span className="font-semibold">BMI:</span> {data.bmi} (
+                {data.kategori_bmi})
+              </p>
+            </div>
+          </div>
+
+          <hr className="my-4 border-gray-300" />
+
+          {/* Riwayat & Kondisi Medis */}
+          <div className="text-black">
+            <h3 className="font-semibold text-lg mb-2">
+              Riwayat & Kondisi Medis
+            </h3>
+            <div className="space-y-2">
+              <p>
+                <span className="font-semibold">Tekanan Darah:</span>{" "}
+                {data.sistolik}/{data.diastolik} mmHg (
+                {data.kategori_tekanan_darah})
+              </p>
+              <p>
+                <span className="font-semibold">Riwayat Penyakit Jantung:</span>{" "}
+                {data.riwayatPenyakit}
+              </p>
+              <p>
+                <span className="font-semibold">Riwayat Merokok:</span>{" "}
+                {data.riwayatMerokok}
+              </p>
+              <p>
+                <span className="font-semibold">Aspek Psikologis:</span>{" "}
+                {data.aspekPsikologis}
+              </p>
+            </div>
+          </div>
+
+          <hr className="my-4 border-gray-300" />
+
+          {/* Hasil Diagnosis */}
+          <div className="text-black">
+            <h3 className="font-semibold text-lg mb-2">Hasil Diagnosis</h3>
+            <div className="space-y-2">
+              <p>
+                <span className="font-semibold">Diagnosis:</span>{" "}
+                {data.diagnosis}
+              </p>
+              <p>
+                <span className="font-semibold">Persentase Kemungkinan:</span>{" "}
+                {data.persentase}%
+              </p>
+              <p>
+                <span className="font-semibold">Tingkat Risiko:</span>{" "}
+                {data.risiko}
+              </p>
+              <p>
+                <span className="font-semibold">Gejala yang Dialami:</span>{" "}
+                {formatGejala(data.gejala)}
+              </p>
+            </div>
+          </div>
+
+          <hr className="my-4 border-gray-300" />
+
+          {/* Saran */}
+          <div className="text-black">
+            <h3 className="font-semibold text-lg mb-2">Saran</h3>
+            <p>{data.saran}</p>
           </div>
         </DataCard>
 
