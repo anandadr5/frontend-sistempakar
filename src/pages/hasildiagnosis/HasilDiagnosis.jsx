@@ -78,10 +78,12 @@ const HasilDiagnosis = () => {
       />
 
       <div className="print-area flex flex-col items-center w-full max-w-4xl px-6 py-10 space-y-6">
-        <DataCard title="Data & Hasil Diagnosis">
+        <DataCard>
           {/* --- BAGIAN DATA PASIEN DENGAN JUDUL --- */}
           <div className="text-black">
-            <h3 className="font-semibold text-lg mb-2">Data Pasien</h3>
+            <h3 className="font-semibold text-lg mb-2 text-center">
+              Data Pasien
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
               <p>
                 <span className="font-semibold">Nama:</span> {data.nama}
@@ -112,7 +114,7 @@ const HasilDiagnosis = () => {
 
           {/* --- BAGIAN RIWAYAT & KONDISI MEDIS DENGAN JUDUL --- */}
           <div className="text-black">
-            <h3 className="font-semibold text-lg mb-2">
+            <h3 className="font-semibold text-lg mb-2 text-center">
               Riwayat & Kondisi Medis
             </h3>
             <div className="space-y-2">
@@ -139,7 +141,9 @@ const HasilDiagnosis = () => {
 
           {/* --- BAGIAN HASIL DIAGNOSIS DENGAN JUDUL --- */}
           <div className="text-black">
-            <h3 className="font-semibold text-lg mb-2">Hasil Diagnosis</h3>
+            <h3 className="font-semibold text-lg mb-2 text center">
+              Hasil Diagnosis
+            </h3>
             <div className="space-y-2">
               <p>
                 <span className="font-semibold">Diagnosis:</span>{" "}
