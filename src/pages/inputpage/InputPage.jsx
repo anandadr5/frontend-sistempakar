@@ -30,94 +30,41 @@ const InputPage = () => {
   ];
 
   const symptomMapping = {
-    "Nyeri dada": "nyeri_dada",
-    "Sesak napas": "sesak_napas",
+    "Nyeri dada": "nyeri dada",
+    "Sesak napas": "sesak napas",
     Pusing: "pusing",
     Lemas: "lemas",
-    "Jantung berdebar": "jantung_berdebar",
-    "Mudah lelah": "mudah_lelah",
-    "Bengkak pada kaki": "bengkak_kaki",
-    "Keringat dingin": "keringat_dingin",
+    "Jantung berdebar": "jantung berdebar",
+    "Mudah lelah": "mudah lelah",
+    "Bengkak pada kaki": "bengkak pada kaki",
+    "Keringat dingin": "keringat dingin",
   };
 
   const formFields = [
     { label: "Nama", type: "text", id: "nama" },
-    { label: "Usia", type: "number", id: "usia", min: 0, max: 120 },
+    { label: "Usia", type: "number", id: "usia" },
     { label: "Jenis Kelamin", type: "text", id: "gender" },
     {
       label: "Berat Badan",
       type: "number",
       id: "weight",
       helper: "Satuan kg",
-      min: 1,
-      max: 500,
-      step: "0.1",
     },
     {
       label: "Tinggi Badan",
       type: "number",
       id: "height",
       helper: "Satuan cm",
-      min: 50,
-      max: 250,
-      step: "0.1",
-    },
-    {
-      label: "Tekanan Darah Sistolik (Atas)",
-      type: "number",
-      id: "sistolik",
-      helper: "Contoh: 120 (mmHg)",
-      min: 60,
-      max: 250,
-    },
-    {
-      label: "Tekanan Darah Diastolik (Bawah)",
-      type: "number",
-      id: "diastolik",
-      helper: "Contoh: 80 (mmHg)",
-      min: 40,
-      max: 150,
-    },
-  ];
-
-  const additionalFields = [
-    {
-      label: "Riwayat Penyakit",
-      id: "riwayat_penyakit",
-      type: "select",
-      options: ["Ada", "Tidak Ada"],
-    },
-    {
-      label: "Riwayat Merokok",
-      id: "riwayat_merokok",
-      type: "select",
-      options: ["Ya", "Tidak"],
-    },
-    {
-      label: "Aspek Psikologis",
-      id: "aspek_psikologis",
-      type: "select",
-      options: [
-        "Tenang",
-        "Takut",
-        "Marah",
-        "Depresi",
-        "Cemas",
-        "Kecenderungan Bunuh Diri",
-      ],
     },
   ];
 
   // State
-  const allFormFields = [...formFields, ...additionalFields];
-
   const [formData, setFormData] = useState(
-    allFormFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
+    formFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
   );
 
   const [selectedSymptoms, setSelectedSymptoms] = useState({});
   const [popupVisible, setPopupVisible] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Handler input form
@@ -134,90 +81,23 @@ const InputPage = () => {
   // Reset semua input
   const handleReset = () => {
     setFormData(
-      allFormFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
+      formFields.reduce((acc, field) => ({ ...acc, [field.id]: "" }), {})
     );
     setSelectedSymptoms({});
   };
 
-  // Validasi input
-  const validateInput = () => {
-    const errors = [];
-
-    // Validasi form data
-    const requiredFields = [
-      "nama",
-      "usia",
-      "gender",
-      "weight",
-      "height",
-      "sistolik",
-      "diastolik",
-      "riwayat_penyakit",
-      "riwayat_merokok",
-      "aspek_psikologis",
-    ];
-    requiredFields.forEach((field) => {
-      if (!formData[field] || formData[field] === "") {
-        const fieldName =
-          formFields.find((f) => f.id === field)?.label || field;
-        errors.push(`${fieldName} harus diisi`);
-      }
-    });
-
-    // Validasi numerik
-    const age = parseInt(formData.usia);
-    const weight = parseFloat(formData.weight);
-    const height = parseFloat(formData.height);
-    const sistolik = parseFloat(formData.sistolik || 120);
-    const diastolik = parseFloat(formData.diastolik || 80);
-
-    if (age && (age < 0 || age > 120)) {
-      errors.push("Usia harus antara 0-120 tahun");
-    }
-
-    if (weight && (weight < 1 || weight > 500)) {
-      errors.push("Berat badan tidak valid");
-    }
-
-    if (height && (height < 50 || height > 250)) {
-      errors.push("Tinggi badan tidak valid");
-    }
-
-    if (sistolik && (sistolik < 60 || sistolik > 250)) {
-      errors.push("Tekanan sistolik tidak valid (60-250 mmHg)");
-    }
-
-    if (diastolik && (diastolik < 40 || diastolik > 150)) {
-      errors.push("Tekanan diastolik tidak valid (40-150 mmHg)");
-    }
-
-    if (sistolik && diastolik && sistolik <= diastolik) {
-      errors.push("Tekanan sistolik harus lebih tinggi dari diastolik");
-    }
-
-    // Validasi gejala - minimal harus ada pilihan untuk semua gejala
-    const symptomCount = Object.keys(selectedSymptoms).length;
-    if (symptomCount < symptoms.length) {
-      errors.push("Mohon pilih ya/tidak untuk semua gejala");
-    }
-
-    return errors;
-  };
-
   // Validasi dan submit
   const handleSubmit = async () => {
-    const validationErrors = validateInput();
+    const isFormComplete = Object.values(formData).every((val) => val !== "");
+    const isSymptomsComplete =
+      Object.keys(selectedSymptoms).length === symptoms.length;
 
-    if (validationErrors.length > 0) {
-      setPopupMessage(validationErrors.join(", "));
+    if (!isFormComplete || !isSymptomsComplete) {
       setPopupVisible(true);
-      return;
-    }
+    } else {
+      setLoading(true);
 
-    setLoading(true);
-
-    try {
-      // Mapping gejala sesuai backend
+      // MAPPING GEJALA YANG BENAR untuk backend
       const mappedSymptoms = {};
       Object.entries(selectedSymptoms).forEach(([frontendKey, value]) => {
         const backendKey = symptomMapping[frontendKey];
@@ -227,49 +107,31 @@ const InputPage = () => {
       console.log("🔍 DEBUG - Original symptoms:", selectedSymptoms);
       console.log("🔍 DEBUG - Mapped symptoms:", mappedSymptoms);
 
-      // Payload sesuai dengan endpoint backend
-      const payload = {
-        nama: formData.nama.trim(),
-        usia: parseInt(formData.usia),
-        gender: formData.gender,
-        weight: parseFloat(formData.weight),
-        height: parseFloat(formData.height),
-        sistolik: parseFloat(formData.sistolik),
-        diastolik: parseFloat(formData.diastolik),
-        riwayat_penyakit: formData.riwayat_penyakit,
-        riwayat_merokok: formData.riwayat_merokok,
-        aspek_psikologis: formData.aspek_psikologis,
-        gejala: mappedSymptoms,
-      };
+      try {
+        const response = await fetch(`${BASE_URL}/api/diagnosis`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nama: formData.nama,
+            usia: formData.usia,
+            gender: formData.gender,
+            weight: formData.weight,
+            height: formData.height,
+            gejala: mappedSymptoms,
+          }),
+        });
 
-      console.log("🔍 DEBUG - Payload:", payload);
+        const result = await response.json();
+        console.log("Hasil diagnosis:", result);
 
-      const response = await fetch(`${BASE_URL}/api/diagnosis`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `HTTP Error: ${response.status}`);
+        // Simpan result ke sessionStorage untuk halaman hasil
+        sessionStorageStorage.setItem("hasilDiagnosis", JSON.stringify(result));
+        navigate("/hasildiagnosis");
+      } catch (error) {
+        console.error("Gagal kirim data:", error);
+      } finally {
+        setLoading(false);
       }
-
-      const result = await response.json();
-      console.log("✅ Hasil diagnosis:", result);
-
-      // Simpan result ke sessionStorage untuk halaman hasil
-      sessionStorage.setItem("hasilDiagnosis", JSON.stringify(result));
-      navigate("/hasildiagnosis");
-    } catch (error) {
-      console.error("❌ Gagal kirim data:", error);
-      setPopupMessage(`Gagal memproses diagnosis: ${error.message}`);
-      setPopupVisible(true);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -284,13 +146,11 @@ const InputPage = () => {
         />
 
         {/* Form Data Pengguna */}
-        <form className="w-full max-w-[900px] mt-4 mb-6 px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {formFields.map(({ label, type, id, helper, min, max, step }) => (
+        <form className="w-full max-w-[600px] mt-4 mb-6">
+          <div className="grid grid-cols-1 gap-6">
+            {formFields.map(({ label, type, id, helper }) => (
               <div key={id} className="flex flex-col">
-                <Label className="text-sm font-semibold mb-1">
-                  {label} <span className="text-red-500">*</span>
-                </Label>
+                <Label className="text-sm font-semibold mb-1">{label}</Label>
 
                 {id === "gender" ? (
                   <select
@@ -298,9 +158,9 @@ const InputPage = () => {
                     name={id}
                     value={formData[id]}
                     onChange={handleInputChange}
-                    className="w-full h-[50px] px-2.5 py-[15px] border border-gray-400 rounded-md bg-white text-gray-700 focus:border-blue-500 focus:outline-none"
+                    className="w-full h-[50px] px-2.5 py-[15px] border border-black rounded-md bg-white text-gray-600"
                   >
-                    <option value="" disabled>
+                    <option value="" disabled hidden>
                       Pilih Jenis Kelamin
                     </option>
                     <option value="Laki-laki">Laki-laki</option>
@@ -314,40 +174,14 @@ const InputPage = () => {
                     value={formData[id]}
                     onChange={handleInputChange}
                     placeholder={`Masukkan ${label}`}
-                    min={min}
-                    max={max}
-                    step={step}
-                    className="py-3 px-4 w-full border border-gray-400 rounded-lg focus:border-blue-500 focus:outline-none"
+                    step={id === "height" ? "0.01" : undefined}
+                    className="py-3 px-4 w-full border border-gray-300 rounded-lg"
                   />
                 )}
 
                 {helper && (
                   <p className="text-xs text-gray-500 mt-1">{helper}</p>
                 )}
-              </div>
-            ))}
-
-            {additionalFields.map(({ label, id, options }) => (
-              <div key={id} className="flex flex-col">
-                <Label className="text-sm font-semibold mb-1">
-                  {label} <span className="text-red-500">*</span>
-                </Label>
-                <select
-                  id={id}
-                  name={id}
-                  value={formData[id] || ""}
-                  onChange={handleInputChange}
-                  className="w-full h-[50px] px-2.5 py-[15px] border border-gray-400 rounded-md bg-white text-gray-700 focus:border-blue-500 focus:outline-none"
-                >
-                  <option value="" disabled hidden>
-                    Pilih {label}
-                  </option>
-                  {options.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
               </div>
             ))}
           </div>
@@ -389,41 +223,21 @@ const InputPage = () => {
               </div>
             ))}
 
-            {/* Progress indicator */}
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
-                Gejala terpilih: {Object.keys(selectedSymptoms).length} dari{" "}
-                {symptoms.length}
-              </p>
-              <div className="w-64 bg-gray-200 rounded-full h-2 mt-2 mx-auto">
-                <div
-                  className="bg-green-500 h-2 rounded-full transition-all duration-300"
-                  style={{
-                    width: `${
-                      (Object.keys(selectedSymptoms).length / symptoms.length) *
-                      100
-                    }%`,
-                  }}
-                ></div>
-              </div>
-            </div>
-
-            {/* Tombol Submit */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+            {/* Tombol Responsif */}
+            <div className="col-span-2 flex flex-col sm:flex-row justify-center gap-4 mt-6">
               <Button
-                className="w-full sm:w-48 p-3 rounded-lg bg-gray-600 hover:bg-gray-700 font-medium text-white transition-colors"
+                className="w-full sm:w-48 p-3 rounded-lg bg-black font-medium text-white"
                 onClick={handleReset}
                 type="button"
               >
                 Ulang
               </Button>
               <Button
-                className="w-full sm:w-48 p-3 rounded-lg bg-blue-600 hover:bg-blue-700 font-medium text-white transition-colors"
+                className="w-full sm:w-48 p-3 rounded-lg bg-black font-medium text-white"
                 onClick={handleSubmit}
                 type="button"
-                disabled={loading}
               >
-                {loading ? "Memproses..." : "Kirim"}
+                Kirim
               </Button>
             </div>
           </div>
@@ -432,7 +246,7 @@ const InputPage = () => {
         {/* Popup jika data belum lengkap */}
         {popupVisible && (
           <PopupAlert
-            message={popupMessage}
+            message="Mohon lengkapi semua data dan pilih gejala terlebih dahulu!"
             onClose={() => setPopupVisible(false)}
           />
         )}

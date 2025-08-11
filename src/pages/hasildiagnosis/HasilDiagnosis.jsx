@@ -9,48 +9,6 @@ import DataCard from "@/components/user/datacard";
 
 import FullScreenLoader from "@/components/loading";
 
-// Fungsi kategori tekanan darah
-const getBloodPressureCategory = (sistolik, diastolik) => {
-  if (!sistolik || !diastolik) {
-    return {
-      category: "Data tidak lengkap",
-      color: "bg-gray-100 text-gray-800",
-    };
-  }
-
-  if (sistolik < 90 || diastolik < 60) {
-    return {
-      category: "Hipotensi",
-      color: "bg-blue-100 text-blue-800",
-    };
-  } else if (sistolik <= 120 && diastolik <= 80) {
-    return {
-      category: "Normal",
-      color: "bg-green-100 text-green-800",
-    };
-  } else if (sistolik <= 139 || diastolik <= 89) {
-    return {
-      category: "Prehipertensi",
-      color: "bg-yellow-100 text-yellow-800",
-    };
-  } else if (sistolik <= 159 || diastolik <= 99) {
-    return {
-      category: "Hipertensi Tahap 1",
-      color: "bg-orange-100 text-orange-800",
-    };
-  } else if (sistolik <= 179 || diastolik <= 109) {
-    return {
-      category: "Hipertensi Tahap 2",
-      color: "bg-red-100 text-red-800",
-    };
-  } else {
-    return {
-      category: "Hipertensi Darurat",
-      color: "bg-red-200 text-red-900",
-    };
-  }
-};
-
 const HasilDiagnosis = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
@@ -59,363 +17,99 @@ const HasilDiagnosis = () => {
   useEffect(() => {
     const hasil = sessionStorage.getItem("hasilDiagnosis");
     if (hasil) {
-      try {
-        const parsedData = JSON.parse(hasil);
-        setData(parsedData);
-        console.log("✅ Data hasil diagnosis:", parsedData);
-      } catch (error) {
-        console.error("❌ Error parsing hasil diagnosis:", error);
-        sessionStorage.removeItem("hasilDiagnosis");
-        navigate("/inputpage");
-      }
-    } else {
-      navigate("/inputpage");
+      setData(JSON.parse(hasil));
     }
-  }, [navigate]);
-
-  // Format persentase
-  const formatPersentase = (nilai) => {
-    if (typeof nilai === "number") {
-      return nilai.toFixed(1);
-    }
-    return nilai || "0.0";
-  };
-
-  // Warna risiko
-  const getRiskColor = (risiko) => {
-    if (!risiko) return "text-gray-600";
-    const risikoLower = risiko.toLowerCase();
-    if (risikoLower.includes("tidak ada") || risikoLower.includes("rendah")) {
-      return "text-green-600";
-    } else if (risikoLower.includes("sedang")) {
-      return "text-yellow-600";
-    } else if (risikoLower.includes("tinggi")) {
-      return "text-red-600";
-    } else if (
-      risikoLower.includes("sangat tinggi") ||
-      risikoLower.includes("darurat")
-    ) {
-      return "text-red-800";
-    }
-    return "text-gray-600";
-  };
-
-  // Warna persentase
-  const getPercentageColor = (persentase) => {
-    if (typeof persentase !== "number") return "text-gray-600";
-    if (persentase < 25) {
-      return "text-green-600";
-    } else if (persentase < 50) {
-      return "text-yellow-600";
-    } else if (persentase < 75) {
-      return "text-orange-600";
-    } else {
-      return "text-red-600";
-    }
-  };
-
-  // Warna diagnosis
-  const getDiagnosisColor = (diagnosis) => {
-    if (!diagnosis) return "text-gray-600";
-    const diagnosisLower = diagnosis.toLowerCase();
-    if (diagnosisLower.includes("tidak terdeteksi")) {
-      return "text-green-600";
-    } else if (diagnosisLower.includes("terdeteksi")) {
-      return "text-orange-600";
-    }
-    return "text-gray-600";
-  };
+  }, []);
 
   // Cetak hasil
   const handlePrint = () => {
     const originalTitle = document.title;
     const today = new Date().toLocaleDateString("id-ID").replace(/\//g, "-");
-    const cleanNama = data?.nama ? data.nama.replace(/\s+/g, "") : "Unknown";
-    document.title = `Hasil_Diagnosis_${cleanNama}_${today}`;
+    const cleanNama = data.nama.replace(/\s+/g, "");
+    const fileTitle = `Hasil_Diagnosis_${cleanNama}_${today}`;
 
-    document
-      .querySelectorAll(".no-print")
-      .forEach((el) => (el.style.display = "none"));
+    document.title = fileTitle;
     window.print();
     setTimeout(() => {
       document.title = originalTitle;
-      document
-        .querySelectorAll(".no-print")
-        .forEach((el) => (el.style.display = ""));
     }, 1000);
-  };
-
-  // Kembali ke diagnosis
-  const handleBackToDiagnosis = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      sessionStorage.removeItem("hasilDiagnosis");
-      navigate("/inputpage");
-    }, 300);
   };
 
   if (!data) {
     return (
-      <div className="flex flex-col items-center w-full pt-20 bg-white min-h-screen">
+      <div className="flex flex-col items-center w-full pt-20 bg-white">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center p-10">
-          <div className="text-center">
-            <div className="mb-6">
-              <svg
-                className="mx-auto h-16 w-16 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">
-              Data Hasil Diagnosis Tidak Ditemukan
-            </h1>
-            <p className="text-gray-600 mb-6">
-              Silakan lakukan diagnosis terlebih dahulu untuk melihat hasilnya.
-            </p>
-            <Button
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-gray-800 rounded-lg font-medium transition-colors"
-              onClick={() => navigate("/inputpage")}
-            >
-              Mulai Diagnosis
-            </Button>
-          </div>
+        <div className="p-10 text-center">
+          <h1 className="text-xl font-bold">
+            Data hasil diagnosis tidak ditemukan.
+          </h1>
+          <Button
+            className="mt-6 px-4 py-2 bg-black text-white rounded-lg"
+            onClick={() => navigate("/inputpage")}
+          >
+            Kembali ke Diagnosis
+          </Button>
         </div>
         <Footer />
       </div>
     );
   }
 
-  // Kalau data ada, hitung BP info ===
-  const bpInfo = getBloodPressureCategory(data.sistolik, data.diastolik);
-
   return (
     <div className="flex flex-col items-center w-full pt-20 bg-white">
-      <Navbar className="no-print" />
+      <Navbar />
 
       <SectionHeader
-        title="Hasil Diagnosis Sistem Pakar"
-        subtitle="Analisis Penyakit Jantung Menggunakan Metode Fuzzy Mamdani"
+        title="Hasil Diagnosis"
+        subtitle="Analisis Gejala dan Diagnosis Penyakit Jantung dengan Sistem Pakar Berbasis Fuzzy Mamdani"
       />
 
-      <div className="print-area flex flex-col items-center w-full max-w-5xl px-6 py-10 space-y-8">
-        {/* Data Pasien */}
-        <DataCard title="📋 Informasi Pasien">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Nama:</span> {data.nama}
-              </p>
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Usia:</span> {data.usia} tahun
-              </p>
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Jenis Kelamin:</span>{" "}
-                {data.gender}
-              </p>
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Berat Badan:</span>{" "}
-                {data.weight} kg
-              </p>
-            </div>
-            <div className="space-y-2">
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Tinggi Badan:</span>{" "}
-                {data.height} cm
-              </p>
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">BMI:</span> {data.bmi}
-                <span
-                  className={`ml-2 px-2 py-1 text-xs rounded ${
-                    data.kategori_bmi === "Normal"
-                      ? "bg-green-100 text-green-800"
-                      : data.kategori_bmi === "Overweight"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : data.kategori_bmi === "Obese"
-                      ? "bg-red-100 text-red-800"
-                      : "bg-gray-100 text-gray-800"
-                  }`}
-                >
-                  {data.kategori_bmi}
-                </span>
-              </p>
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Tekanan Darah:</span>{" "}
-                <span className="font-medium">
-                  {data.sistolik || "N/A"}/{data.diastolik || "N/A"} mmHg
-                </span>
-                <span
-                  className={`ml-2 px-2 py-1 text-xs rounded ${bpInfo.color}`}
-                >
-                  {bpInfo.category}
-                </span>
-              </p>
-            </div>
-          </div>
-
-          {/* Data Tambahan */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <h4 className="font-semibold text-lg mb-3 text-gray-800">
-              Data Tambahan
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Riwayat Penyakit:</span>
-                <span
-                  className={
-                    data.riwayat_penyakit === "Ada"
-                      ? "text-red-600 ml-1"
-                      : "text-green-600 ml-1"
-                  }
-                >
-                  {data.riwayat_penyakit || "Tidak Ada"}
-                </span>
-              </p>
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Riwayat Merokok:</span>
-                <span
-                  className={
-                    data.riwayat_merokok === "Ya"
-                      ? "text-red-600 ml-1"
-                      : "text-green-600 ml-1"
-                  }
-                >
-                  {data.riwayat_merokok || "Tidak"}
-                </span>
-              </p>
-              <p className="text-base text-gray-800">
-                <span className="font-semibold">Aspek Psikologis:</span>
-                <span
-                  className={`ml-1 ${
-                    data.aspek_psikologis === "Tenang"
-                      ? "text-green-600"
-                      : ["Depresi", "Kecenderungan Bunuh Diri"].includes(
-                          data.aspek_psikologis
-                        )
-                      ? "text-red-600"
-                      : "text-yellow-600"
-                  }`}
-                >
-                  {data.aspek_psikologis || "Tenang"}
-                </span>
-              </p>
-            </div>
-          </div>
-        </DataCard>
-
-        {/* Hasil Diagnosis */}
-        <DataCard title="🩺 Hasil Diagnosis">
-          <div className="text-center mb-6">
-            <h3
-              className={`text-2xl font-bold mb-2 ${getDiagnosisColor(
-                data.diagnosis
-              )}`}
-            >
-              {data.diagnosis || "Tidak Ada Diagnosis"}
-            </h3>
-            <div
-              className={`text-6xl font-bold mb-2 ${getPercentageColor(
-                data.persentase
-              )}`}
-            >
-              {formatPersentase(data.persentase)}%
-            </div>
-            <p className="text-gray-600">Tingkat Kepercayaan Sistem</p>
-          </div>
-
-          <div className="bg-gray-50 rounded-lg p-6">
-            <h4 className="font-semibold text-lg mb-3 text-gray-800">
-              Tingkat Risiko
-            </h4>
-            <p
-              className={`text-xl font-bold mb-4 ${getRiskColor(data.risiko)}`}
-            >
-              {data.risiko || "Tidak Ada Risiko"}
+      <div className="print-area flex flex-col items-center w-full max-w-4xl px-6 py-10 space-y-6">
+        <DataCard title="Data & Hasil Diagnosis">
+          <div className="space-y-1">
+            <p className="text-base font-medium text-black">
+              Nama: {data.nama}
             </p>
-
-            {/* Progress bar untuk visualisasi risiko */}
-            <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
-              <div
-                className={`h-3 rounded-full transition-all duration-500 ${
-                  data.persentase < 25
-                    ? "bg-green-500"
-                    : data.persentase < 50
-                    ? "bg-yellow-500"
-                    : data.persentase < 75
-                    ? "bg-orange-500"
-                    : "bg-red-500"
-                }`}
-                style={{ width: `${Math.min(data.persentase, 100)}%` }}
-              ></div>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <h4 className="font-semibold text-lg mb-3 text-gray-800">
-              Gejala yang Terdeteksi
-            </h4>
-            <p className="text-base bg-blue-50 p-4 rounded-lg text-gray-800">
-              {data.gejala || "Tidak ada gejala yang dilaporkan"}
+            <p className="text-base font-medium text-black">
+              Usia: {data.usia}
+            </p>
+            <p className="text-base font-medium text-black">
+              Jenis Kelamin: {data.gender}
+            </p>
+            <p className="text-base font-medium text-black">
+              Berat Badan: {data.weight} kg
+            </p>
+            <p className="text-base font-medium text-black">
+              Tinggi Badan: {data.height} cm
+            </p>
+            <p className="text-base font-medium text-black">
+              BMI: {data.bmi} ({data.kategori_bmi})
             </p>
           </div>
-        </DataCard>
 
-        {/* Rekomendasi dan Saran */}
-        <DataCard title="💡 Rekomendasi Medis">
-          <div className="space-y-4">
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-              <h4 className="font-semibold text-lg mb-2 text-blue-800">
-                Saran Utama
-              </h4>
-              <p className="text-base text-blue-700 leading-relaxed">
-                {data.saran ||
-                  "Konsultasikan dengan dokter untuk evaluasi lebih lanjut."}
-              </p>
-            </div>
+          <hr className="my-4 border-gray-300" />
 
-            {/* Rekomendasi tambahan jika ada */}
-            {data.recommendations && data.recommendations.length > 0 && (
-              <div className="mt-6">
-                <h4 className="font-semibold text-lg mb-3 text-gray-800">
-                  Rekomendasi Tambahan
-                </h4>
-                <div className="space-y-2">
-                  {data.recommendations.map((rec, index) => (
-                    <div key={index} className="flex items-start space-x-2">
-                      <span className="text-green-500 mt-1">✓</span>
-                      <p className="text-base text-gray-800">{rec}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+          <div className="space-y-1">
+            <p className="text-base font-medium text-black">
+              Diagnosis: {data.diagnosis}
+            </p>
+            <p className="text-base font-medium text-black">
+              Persentase Kemungkinan: {data.persentase}%
+            </p>
+            <p className="text-base font-medium text-black">
+              Risiko: {data.risiko}
+            </p>
+            <p className="text-base font-medium text-black">
+              Gejala yang Dipilih: {data.gejala}
+            </p>
+          </div>
 
-            {/* Target values jika ada */}
-            {data.targets && (
-              <div className="mt-6">
-                <h4 className="font-semibold text-lg mb-3 text-gray-800">
-                  Target Kesehatan
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {Object.entries(data.targets).map(([key, value]) => (
-                    <div key={key} className="bg-green-50 p-3 rounded">
-                      <p className="text-sm font-medium text-green-800 capitalize">
-                        {key.replace("_", " ")}
-                      </p>
-                      <p className="text-base text-green-700">{value}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+          <hr className="my-4 border-gray-300" />
+
+          <div>
+            <p className="text-base font-medium text-black">
+              Saran: {data.saran}
+            </p>
           </div>
         </DataCard>
 
@@ -451,54 +145,33 @@ const HasilDiagnosis = () => {
       </div>
 
       {/* Action buttons */}
-      <div className="flex flex-col sm:flex-row justify-center w-full max-w-md gap-4 mb-8 no-print">
+      <div className="flex justify-center w-full max-w-md gap-4 no-print">
         <Button
-          className="w-full sm:w-48 p-3 rounded-lg bg-gray-600 hover:bg-gray-700 text-gray-800 font-medium transition-colors"
-          onClick={handleBackToDiagnosis}
+          className="w-full p-3 rounded-lg bg-black text-white font-medium"
+          onClick={() => {
+            setIsLoading(true);
+            setTimeout(() => {
+              navigate("/inputpage");
+            }, 300);
+          }}
           type="button"
-          disabled={isLoading}
         >
-          {isLoading ? "Loading..." : "Diagnosis Baru"}
+          Kembali ke Diagnosis
         </Button>
         <Button
-          className="w-full sm:w-48 p-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-gray-800 font-medium transition-colors"
+          className="w-full p-3 rounded-lg bg-black text-white font-medium"
           type="button"
           onClick={handlePrint}
         >
-          📄 Cetak Hasil
+          Cetak Hasil
         </Button>
       </div>
 
-      <div className="w-full border-t border-gray-300 my-6 no-print" />
+      <div className="w-full border-t border-gray-300 my-10" />
       <Footer className="no-print" />
 
-      {/* Loading overlay */}
+      {/* Fullscreen Loader */}
       {isLoading && <FullScreenLoader />}
-
-      {/* Print styles */}
-      <style jsx>{`
-        @media print {
-          .no-print {
-            display: none !important;
-          }
-          .print-area {
-            max-width: none !important;
-            margin: 0 !important;
-          }
-          body {
-            font-size: 12pt;
-          }
-          h1,
-          h2,
-          h3,
-          h4 {
-            page-break-after: avoid;
-          }
-          .page-break {
-            page-break-before: always;
-          }
-        }
-      `}</style>
     </div>
   );
 };
