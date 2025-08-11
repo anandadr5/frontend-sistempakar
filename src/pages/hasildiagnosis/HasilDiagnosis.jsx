@@ -79,7 +79,7 @@ const HasilDiagnosis = () => {
 
       <div className="print-area flex flex-col items-center w-full max-w-4xl px-6 py-10 space-y-6">
         <DataCard title="Data & Hasil Diagnosis">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-black">
             <p>
               <span className="font-semibold">Nama:</span> {data.nama}
             </p>
@@ -122,7 +122,7 @@ const HasilDiagnosis = () => {
 
           <hr className="my-4 border-gray-300" />
 
-          <div className="space-y-2">
+          <div className="space-y-2 text-black">
             <p>
               <span className="font-semibold">Diagnosis:</span> {data.diagnosis}
             </p>
@@ -142,7 +142,7 @@ const HasilDiagnosis = () => {
 
           <hr className="my-4 border-gray-300" />
 
-          <div>
+          <div className="text-black">
             <p className="font-semibold">Saran:</p>
             <p className="mt-1">{data.saran}</p>
           </div>
