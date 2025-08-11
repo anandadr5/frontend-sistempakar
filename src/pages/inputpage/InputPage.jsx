@@ -42,7 +42,7 @@ const InputPage = () => {
 
   const formFields = [
     { label: "Nama", type: "text", id: "nama" },
-    { label: "Usia", type: "number", id: "usia" },
+    { label: "Usia", type: "text", id: "usia" },
     {
       label: "Jenis Kelamin",
       type: "select",
@@ -51,25 +51,25 @@ const InputPage = () => {
     },
     {
       label: "Berat Badan",
-      type: "number",
+      type: "text",
       id: "weight",
       helper: "Satuan kg",
     },
     {
       label: "Tinggi Badan",
-      type: "number",
+      type: "text",
       id: "height",
       helper: "Satuan cm",
     },
     {
       label: "Sistolik",
-      type: "number",
+      type: "text",
       id: "sistolik",
       helper: "Tekanan darah atas (e.g., 120 mmHg)",
     },
     {
       label: "Diastolik",
-      type: "number",
+      type: "text",
       id: "diastolik",
       helper: "Tekanan darah bawah (e.g., 80 mmHg)",
     },
@@ -112,7 +112,14 @@ const InputPage = () => {
   // Handler input form
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    const numericFields = ["usia", "weight", "height", "sistolik", "diastolik"];
+
+    if (numericFields.includes(id)) {
+      const numericValue = value.replace(/[^0-9]/g, "");
+      setFormData((prev) => ({ ...prev, [id]: numericValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [id]: value }));
+    }
   };
 
   // Handler pemilihan gejala
@@ -215,7 +222,6 @@ const InputPage = () => {
                     value={formData[id]}
                     onChange={handleInputChange}
                     placeholder={`Masukkan ${label}`}
-                    step={id === "height" ? "0.01" : undefined}
                     className="py-3 px-4 w-full border border-gray-300 rounded-lg"
                   />
                 )}
