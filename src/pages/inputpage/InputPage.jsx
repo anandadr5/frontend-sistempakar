@@ -115,7 +115,7 @@ const InputPage = () => {
     const numericFields = ["usia", "weight", "height", "sistolik", "diastolik"];
 
     if (numericFields.includes(id)) {
-      const numericValue = value.replace(/[^0-9]/g, "");
+      const numericValue = value.replace(/[^0-9]/g, "").slice(0, 3);
       setFormData((prev) => ({ ...prev, [id]: numericValue }));
     } else {
       setFormData((prev) => ({ ...prev, [id]: value }));
