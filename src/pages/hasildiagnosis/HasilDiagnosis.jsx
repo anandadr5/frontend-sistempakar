@@ -17,14 +17,25 @@ const HasilDiagnosis = () => {
   useEffect(() => {
     const hasil = sessionStorage.getItem("hasilDiagnosis");
     if (hasil) {
-      setData(JSON.parse(hasil));
+      const parsedData = JSON.parse(hasil);
+      console.log("📥 Data dari sessionStorage:", parsedData);
+      setData(parsedData);
     }
   }, []);
 
   const formatGejala = (gejalaObj) => {
+    if (typeof gejalaObj === "string") {
+      try {
+        gejalaObj = JSON.parse(gejalaObj);
+      } catch (e) {
+        return gejalaObj;
+      }
+    }
+
     if (typeof gejalaObj !== "object" || gejalaObj === null) {
       return "Data gejala tidak valid.";
     }
+
     const gejalaDialami = Object.entries(gejalaObj)
       .filter(([key, value]) => value === "ya")
       .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
@@ -110,26 +121,24 @@ const HasilDiagnosis = () => {
 
           {/* Riwayat & Kondisi Medis */}
           <div className="text-black">
-            <h3 className="font-semibold text-lg mb-2">
-              Riwayat & Kondisi Medis
-            </h3>
             <div className="space-y-2">
               <p>
                 <span className="font-semibold">Tekanan Darah:</span>{" "}
-                {data.sistolik}/{data.diastolik} mmHg (
-                {data.kategori_tekanan_darah})
+                {data.sistolik || "N/A"}/{data.diastolik || "N/A"} mmHg
+                {data.kategori_tekanan_darah &&
+                  ` (${data.kategori_tekanan_darah})`}
               </p>
               <p>
                 <span className="font-semibold">Riwayat Penyakit Jantung:</span>{" "}
-                {data.riwayatPenyakit}
+                {data.riwayatPenyakit || "Tidak diketahui"}
               </p>
               <p>
                 <span className="font-semibold">Riwayat Merokok:</span>{" "}
-                {data.riwayatMerokok}
+                {data.riwayatMerokok || "Tidak diketahui"}
               </p>
               <p>
                 <span className="font-semibold">Aspek Psikologis:</span>{" "}
-                {data.aspekPsikologis}
+                {data.aspekPsikologis || "Tidak diketahui"}
               </p>
             </div>
           </div>
@@ -138,7 +147,6 @@ const HasilDiagnosis = () => {
 
           {/* Hasil Diagnosis */}
           <div className="text-black">
-            <h3 className="font-semibold text-lg mb-2">Hasil Diagnosis</h3>
             <div className="space-y-2">
               <p>
                 <span className="font-semibold">Diagnosis:</span>{" "}

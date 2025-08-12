@@ -156,24 +156,52 @@ const InputPage = () => {
       console.log("🔍 DEBUG - Original symptoms:", selectedSymptoms);
       console.log("🔍 DEBUG - Mapped symptoms:", mappedSymptoms);
 
+      const dataToSend = {
+        nama: formData.nama,
+        usia: formData.usia,
+        gender: formData.gender,
+        weight: formData.weight,
+        height: formData.height,
+        sistolik: formData.sistolik,
+        diastolik: formData.diastolik,
+        riwayatPenyakit: formData.riwayatPenyakit,
+        riwayatMerokok: formData.riwayatMerokok,
+        aspekPsikologis: formData.aspekPsikologis,
+        gejala: mappedSymptoms,
+      };
+
+      console.log("📤 DATA YANG DIKIRIM:", dataToSend);
+
       try {
         const response = await fetch(`${BASE_URL}/api/diagnosis`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...formData,
-            gejala: mappedSymptoms,
-          }),
+          body: JSON.stringify(dataToSend),
         });
 
         const result = await response.json();
-        console.log("Hasil diagnosis:", result);
+        console.log("📥 HASIL DARI BACKEND:", result);
+
+        const completeResult = {
+          ...result,
+          sistolik: formData.sistolik,
+          diastolik: formData.diastolik,
+          riwayatPenyakit: formData.riwayatPenyakit,
+          riwayatMerokok: formData.riwayatMerokok,
+          aspekPsikologis: formData.aspekPsikologis,
+          kategori_tekanan_darah:
+            result.kategori_tekanan_darah || "Tidak diketahui",
+        };
 
         // Simpan result ke sessionStorage untuk halaman hasil
-        sessionStorage.setItem("hasilDiagnosis", JSON.stringify(result));
+        sessionStorage.setItem(
+          "hasilDiagnosis",
+          JSON.stringify(completeResult)
+        );
         navigate("/hasildiagnosis");
       } catch (error) {
-        console.error("Gagal kirim data:", error);
+        console.error("❌ Gagal kirim data:", error);
+        alert("Terjadi kesalahan saat mengirim data. Silakan coba lagi.");
       } finally {
         setLoading(false);
       }
