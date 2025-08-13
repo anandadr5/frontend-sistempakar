@@ -111,11 +111,11 @@ const DetailDataMasyarakat = () => {
         <NavbarAdmin title="Detail Data Masyarakat" className="no-print" />
 
         <section className="flex-1 p-6 overflow-auto">
-          <div className="print-area grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-black">
-            <div className="sticky top-0 bg-gray-100 z-10 py-4">
-              <AdminTitle title="Detail Data Masyarakat" />
-            </div>
+          <div className="sticky top-0 bg-gray-100 z-10 py-4">
+            <AdminTitle title="Detail Data Masyarakat" />
+          </div>
 
+          <div className="print-area grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-black">
             <DataCard title="Data Diri">
               <div className="space-y-1">
                 <p>
