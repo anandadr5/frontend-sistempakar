@@ -182,8 +182,22 @@ const InputPage = () => {
         const result = await response.json();
         console.log("📥 HASIL DARI BACKEND:", result);
 
+        const completeResult = {
+          ...result,
+          sistolik: formData.sistolik,
+          diastolik: formData.diastolik,
+          riwayatPenyakit: formData.riwayatPenyakit,
+          riwayatMerokok: formData.riwayatMerokok,
+          aspekPsikologis: formData.aspekPsikologis,
+          kategori_tekanan_darah:
+            result.kategori_tekanan_darah || "Tidak diketahui",
+        };
+
         // Simpan result ke sessionStorage untuk halaman hasil
-        sessionStorage.setItem("hasilDiagnosis", JSON.stringify(result));
+        sessionStorage.setItem(
+          "hasilDiagnosis",
+          JSON.stringify(completeResult)
+        );
         navigate("/hasildiagnosis");
       } catch (error) {
         console.error("❌ Gagal kirim data:", error);
