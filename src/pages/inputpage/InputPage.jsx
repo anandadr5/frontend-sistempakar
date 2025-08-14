@@ -74,10 +74,12 @@ const InputPage = () => {
       helper: "Tekanan darah bawah (e.g., 80 mmHg)",
     },
     {
-      label: "Riwayat Penyakit Jantung",
+      label: "Riwayat Penyakit",
       type: "select",
       id: "riwayatPenyakit",
       options: ["Ada", "Tidak Ada"],
+      helper:
+        "Contoh: Diabetes, Hipertensi, Kolesterol Tinggi, Stroke, Penyakit Ginjal",
     },
     {
       label: "Riwayat Merokok",
