@@ -160,9 +160,7 @@ const DetailDataMasyarakat = () => {
                   </p>
                 )}
                 <p>
-                  <span className="font-semibold">
-                    Riwayat Penyakit Jantung:
-                  </span>{" "}
+                  <span className="font-semibold">Riwayat Penyakit:</span>{" "}
                   {detailData.riwayat_penyakit || "Tidak diketahui"}
                 </p>
                 <p>

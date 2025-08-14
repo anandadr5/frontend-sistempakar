@@ -129,7 +129,7 @@ const HasilDiagnosis = () => {
                   ` (${data.kategori_tekanan_darah})`}
               </p>
               <p>
-                <span className="font-semibold">Riwayat Penyakit Jantung:</span>{" "}
+                <span className="font-semibold">Riwayat Penyakit:</span>{" "}
                 {data.riwayatPenyakit || "Tidak diketahui"}
               </p>
               <p>
