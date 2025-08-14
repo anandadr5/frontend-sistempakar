@@ -156,25 +156,17 @@ const InputPage = () => {
       console.log("🔍 DEBUG - Original symptoms:", selectedSymptoms);
       console.log("🔍 DEBUG - Mapped symptoms:", mappedSymptoms);
 
-      // Bersihkan tekanan darah jadi angka murni
-      const cleanSistolik = formData.sistolik.replace(/[^0-9]/g, "");
-      const cleanDiastolik = formData.diastolik.replace(/[^0-9]/g, "");
-
-      if (
-        cleanSistolik < 50 ||
-        cleanSistolik > 250 ||
-        cleanDiastolik < 30 ||
-        cleanDiastolik > 150
-      ) {
-        alert("Nilai tekanan darah tidak masuk akal. Periksa kembali.");
-        setLoading(false);
-        return;
-      }
-
       const dataToSend = {
-        ...formData,
-        sistolik: cleanSistolik,
-        diastolik: cleanDiastolik,
+        nama: formData.nama,
+        usia: formData.usia,
+        gender: formData.gender,
+        weight: formData.weight,
+        height: formData.height,
+        sistolik: formData.sistolik,
+        diastolik: formData.diastolik,
+        riwayatPenyakit: formData.riwayatPenyakit,
+        riwayatMerokok: formData.riwayatMerokok,
+        aspekPsikologis: formData.aspekPsikologis,
         gejala: mappedSymptoms,
       };
 
